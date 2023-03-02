@@ -24,7 +24,7 @@ LIB			= $(addprefix -Llib,$(LIB_NAMES)) $(addprefix -l,$(LIB_NAMES) $(EXT_LIB))
 # List of all sources (.c)
 # -------------------------------------------------------------------------
 SRC_DIR		= srcs
-SRC_LST		=
+SRC_LST		= main.c
 
 # List of all object files (.o)
 # -------------------------------------------------------------------------
@@ -77,7 +77,7 @@ fclean:		clean dclean
 watch:		start_watch all
 			@while inotifywait -qr --include '(\.(c|h)|Makefile)' -e modify ./srcs ./includes Makefile; do\
 				echo -ne "\033[H\033[2J"; \
-				make all;\
+				make -k all;\
 			done
 
 .PHONY:		dev
@@ -86,6 +86,17 @@ dev:		fclean
 
 .PHONY:		re
 re:			fclean all
+
+# Documentation
+# -------------------------------------------------------------------------
+.PHONY:		doc
+doc:
+			@mkdir -p doc
+			doxygen Doxyfile
+
+.PHONY:		docclean
+docclean:
+			rm -rf doc
 
 # Libraries
 # -------------------------------------------------------------------------
