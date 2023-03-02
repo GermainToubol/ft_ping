@@ -24,7 +24,7 @@ LIB			= $(addprefix -Llib,$(LIB_NAMES)) $(addprefix -l,$(LIB_NAMES) $(EXT_LIB))
 # List of all sources (.c)
 # -------------------------------------------------------------------------
 SRC_DIR		= srcs
-SRC_LST		= main.c
+SRC_LST		= main.c ft_clock.c
 
 # List of all object files (.o)
 # -------------------------------------------------------------------------
