@@ -1,0 +1,56 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    docker-compose.yml                                 :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: gtoubol <marvin@42.fr>                     +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/03/02 17:50:26 by gtoubol           #+#    #+#              #
+#    Updated: 2023/03/02 17:50:26 by gtoubol          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+volumes:
+  sources:
+    name: sources
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      devide: "${PWD}"
+
+networks:
+  ft_ping:
+    name: "ft_ping"
+    driver: bridge
+
+services:
+  dev:
+    container_name: "dev"
+    build:
+      dockerfile: ./docker/dev.Dockerfile
+    volumes:
+      - "sources:/sources"
+    networks:
+      - ft_ping
+    entrypoint:
+      - "tail"
+      - "-f"
+
+  ping-inet:
+    container_name: "ping-inet"
+    build:
+      dockerfile: ./docker/reference.Dockerfile
+      target: inet
+    entrypoint:
+      - "tail"
+      - "-f"
+
+  ping-ip:
+    container_name: "ping-ip"
+    build:
+      dockerfile: ./docker/reference.Dockerfile
+      target: ip
+    entrypoint:
+      - "tail"
+      - "-f"
