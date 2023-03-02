@@ -36,21 +36,32 @@ services:
     entrypoint:
       - "tail"
       - "-f"
+    profiles:
+      - "dev"
+      - "compare"
 
   ping-inet:
     container_name: "ping-inet"
     build:
       dockerfile: ./docker/reference.Dockerfile
       target: inet
+    networks:
+      - ft_ping
     entrypoint:
       - "tail"
       - "-f"
+    profiles:
+      - "compare"
 
   ping-ip:
     container_name: "ping-ip"
     build:
       dockerfile: ./docker/reference.Dockerfile
       target: ip
+    networks:
+      - ft_ping
     entrypoint:
       - "tail"
       - "-f"
+    profiles:
+      - "compare"

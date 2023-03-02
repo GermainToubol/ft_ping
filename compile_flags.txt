@@ -1,0 +1,8 @@
+-Wall
+-Wextra
+-Werror
+-xc
+-I
+includes
+-I
+libft/includes
