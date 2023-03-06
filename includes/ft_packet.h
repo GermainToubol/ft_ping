@@ -23,6 +23,9 @@
 
 #include "ft_ping.h"
 
+#define ICMP_ECHO_DATA_LENGTH 56
+#define ICMP_ECHO_PACKET_LENGTH 64
+
 /* ************************************************************************* */
 /*                                 Data types                                */
 /* ************************************************************************* */
@@ -87,5 +90,6 @@ typedef struct {
 /* ************************************************************************* */
 
 void ft_init_packet(t_icmp_packet *packet, const t_server *server);
+void ft_mark_packet(t_icmp_packet *packet, uint_least16_t packet_number);
 
 #endif /* FT_PACKET_H */

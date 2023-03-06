@@ -46,7 +46,7 @@ typedef struct {
 } t_server;
 
 int32_t ft_init(int argc, const char **argv, t_server *server);
-int32_t ft_loop(t_server *server);
+int32_t ft_loop(const t_server *server);
 void ft_close(t_server *server);
 
 #endif /* FT_PING_H */

@@ -27,7 +27,8 @@ SRC_DIR		= srcs
 SRC_LST		= main.c ft_clock.c ft_init.c ft_loop.c ft_close.c\
 				$(addprefix socket/,ft_init_socket.c ft_resolve_socket.c	\
 					ft_clean_socket.c)										\
-				$(addprefix packet/,ft_init_packet.c)
+				$(addprefix packet/,ft_init_packet.c ft_mark_packet.c)		\
+				$(addprefix utils/,ft_swap_16bits.c ft_checksum.c)
 
 # List of all object files (.o)
 # -------------------------------------------------------------------------

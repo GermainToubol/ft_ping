@@ -25,8 +25,10 @@
 #include "ft_packet.h"
 #include "ft_ping.h"
 
+int g_continue = 1;
+
 /**
- * @fn int32_t ft_loop(t_server *server)
+ * @fn int32_t ft_loop(const t_server *server)
  *
  * @param server: current ping server
  *
@@ -35,12 +37,18 @@
  * @brief main loop wrapper
  *
  */
-int32_t	ft_loop(t_server *server)
+int32_t	ft_loop(const t_server *server)
 {
-	t_icmp_packet	packet;
+	uint_least8_t	buffer[256];
+	t_icmp_packet	*packet = (t_icmp_packet *)buffer;
+	uint_least16_t	packet_number;
 
-	ft_init_packet(&packet, server);
-	(void)packet;
-	(void)server;
+	ft_init_packet(packet, server);
+	packet_number = 1;
+	while (g_continue)
+	{
+		ft_mark_packet(packet, packet_number);
+		packet_number++;
+	}
 	return (0);
 }
