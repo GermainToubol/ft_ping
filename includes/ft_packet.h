@@ -21,6 +21,12 @@
 
 #include <stdint.h>
 
+#include "ft_ping.h"
+
+/* ************************************************************************* */
+/*                                 Data types                                */
+/* ************************************************************************* */
+
 /**
  * @struct t_echo
  * @brief 2nd 32-bit field of an echo request/response
@@ -75,5 +81,11 @@ typedef struct {
 	};
 	uint_least8_t		data[];			/*!< data field in the packet */
 } t_icmp_packet;
+
+/* ************************************************************************* */
+/*                                 Functions                                 */
+/* ************************************************************************* */
+
+void ft_init_packet(t_icmp_packet *packet, const t_server *server);
 
 #endif /* FT_PACKET_H */
