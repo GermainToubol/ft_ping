@@ -25,6 +25,7 @@
 #include <sys/types.h>
 
 #include "ft_ping.h"
+#include "ft_socket.h"
 
 /**
  * @fn int32_t ft_resolve_socket(t_server *server)
