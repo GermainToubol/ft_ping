@@ -24,7 +24,7 @@
  * @param server: current server structure
  * @brief Servers clock increases by one tick.
  */
-inline void	ft_clock_nexttick(t_server *server)
+void	ft_clock_nexttick(t_server *server)
 {
 	server->clock++;
 }
