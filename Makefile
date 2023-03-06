@@ -24,8 +24,9 @@ LIB			= $(addprefix -Llib,$(LIB_NAMES)) $(addprefix -l,$(LIB_NAMES) $(EXT_LIB))
 # List of all sources (.c)
 # -------------------------------------------------------------------------
 SRC_DIR		= srcs
-SRC_LST		= main.c ft_clock.c \
-				$(addprefix socket/,ft_init_socket.c ft_resolve_socket.c)
+SRC_LST		= main.c ft_clock.c ft_init.c ft_close.c\
+				$(addprefix socket/,ft_init_socket.c ft_resolve_socket.c	\
+					ft_clean_socket.c)
 
 # List of all object files (.o)
 # -------------------------------------------------------------------------

@@ -33,14 +33,16 @@ typedef uint64_t t_clock;
  * Gather all the properties of the server.
  */
 typedef struct {
-	char			*name;		/*!< Requested server */
-	char			ip[16];		/*!< Converted address to ip string */
-	struct sockaddr	s_addr;		/*!< Resolved address */
+	char			*name;						/*!< Requested server */
+	char			ip[16];						/*!< Converted address to ip string */
+	struct sockaddr	s_addr;						/*!< Resolved address */
 	socklen_t		s_addrlen;
-	char			resolved_name[NI_MAXHOST]; /*!< Reverse resolved name */
-	t_clock			clock;		/*!< Hold the clock tick */
+	char			resolved_name[NI_MAXHOST];	/*!< Reverse resolved name */
+	int				sockfd;						/*!< Socket fd */
+	t_clock			clock;						/*!< Hold the clock tick */
 } t_server;
 
-
+int32_t ft_init(int argc, const char **argv, t_server *server);
+void	ft_close(t_server *server);
 
 #endif /* FT_PING_H */
