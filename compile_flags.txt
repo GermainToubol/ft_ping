@@ -6,3 +6,5 @@
 includes
 -I
 libft/includes
+-I
+/usr/lib/gcc/x86_64-linux-gnu/10/include

@@ -36,9 +36,9 @@ services:
     entrypoint:
       - "tail"
       - "-f"
-    profiles:
-      - "dev"
-      - "compare"
+#    profiles:
+#      - "dev"
+#      - "compare"
 
   ping-inet:
     container_name: "ping-inet"
@@ -50,8 +50,8 @@ services:
     entrypoint:
       - "tail"
       - "-f"
-    profiles:
-      - "compare"
+#    profiles:
+#      - "compare"
 
   ping-ip:
     container_name: "ping-ip"
@@ -63,5 +63,5 @@ services:
     entrypoint:
       - "tail"
       - "-f"
-    profiles:
-      - "compare"
+#    profiles:
+#      - "compare"

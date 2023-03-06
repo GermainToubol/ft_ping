@@ -21,14 +21,9 @@ int	main(int argc, const char **argv)
 	t_server	server;
 	int32_t		errcode;
 
-	if (argc < 2) {
-		dprintf(2, "HANDLE %s (l. %d)\n", __FILE__, __LINE__);
-		abort();
-	}
 	errcode = ft_init(argc, argv, &server);
 	if (errcode == 0)
-	{
-		// run loop
-	}
-	return (0);
+		errcode = ft_loop(&server);
+	ft_close(&server);
+	return (errcode);
 }

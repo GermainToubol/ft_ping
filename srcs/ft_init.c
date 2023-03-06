@@ -36,8 +36,10 @@
  */
 int32_t	ft_init(int argc, const char **argv, t_server *server)
 {
-	(void)argc;
-	(void)argv;
+	if (argc < 2)
+		return (-1);
+	server->name = argv[1];
+
 	/* List of OR because each function is 0 on valid and !0 otherwise */
 	if (ft_init_socket(server)
 		|| ft_resolve_socket(server))

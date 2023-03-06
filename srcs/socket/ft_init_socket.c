@@ -55,7 +55,7 @@ int32_t ft_init_socket(t_server *server)
 	int						errcode;
 
 	errcode = getaddrinfo(server->name, NULL, &hint, &pai);
-	if (errcode == 0)
+	if (errcode)
 	{
 		dprintf(2, "ft_ping: %s: %s\n", server->name, gai_strerror(errcode));
 		return (-1);
