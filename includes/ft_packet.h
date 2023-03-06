@@ -91,5 +91,7 @@ typedef struct {
 
 void ft_init_packet(t_icmp_packet *packet, const t_server *server);
 void ft_mark_packet(t_icmp_packet *packet, uint_least16_t packet_number);
+void ft_send_packet(const t_icmp_packet *packet, const t_server *server);
+void ft_receive_packet(const t_server *server);
 
 #endif /* FT_PACKET_H */

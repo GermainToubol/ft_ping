@@ -31,13 +31,13 @@ uint_least16_t ft_checksum(void *data, size_t size)
 
 	if (size & 0x1)
 	{
-		checksum += buffer[size >> 1] & 0xff;
+		checksum += buffer[size >> 1] & 0xffffLL;
 		size--;
 	}
 	size = size >> 1;
 	for (size_t i = 0; i < size; i++)
-		checksum += buffer[i];
+		checksum += buffer[i] & 0xffffLL;
 	while (checksum != (checksum & 0xffffLL))
 		checksum = (checksum & 0xffffLL) + (checksum >> 16);
-	return ((uint_least16_t)checksum);
+	return ((uint_least16_t)~checksum);
 }
