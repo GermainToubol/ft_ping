@@ -131,12 +131,22 @@ void ft_analyse_packet(const t_server *server, const void *buffer, size_t size);
 #define ICMP_ECHO_REQUEST 8
 #define ICMP_ECHO_REPLY 0
 
-typedef void (*t_packet_handler)(const t_server *, const t_icmp_packet *, size_t);
+typedef void (*t_packet_handler)(
+	const t_server *,
+	const t_ip_packet *,
+	const t_icmp_packet *,
+	size_t);
 
 void ft_handel_request(
 	const t_server *server,
+	const t_ip_packet *ip_packet,
 	const t_icmp_packet *packet,
 	size_t size);
 
+void ft_handel_response(
+	const t_server *server,
+	const t_ip_packet *ip_packet,
+	const t_icmp_packet *packet,
+	size_t size);
 
 #endif /* FT_PACKET_H */

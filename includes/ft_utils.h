@@ -21,8 +21,10 @@
 
 #include <stddef.h>
 #include <stdint.h>
+#include <sys/types.h>
 
 uint_least16_t ft_swap_16bits(uint_least16_t n);
 uint_least16_t ft_checksum(const void *data, size_t size);
+float ft_getdelay(const struct timeval *start, const struct timeval *end);
 
 #endif /* FT_UTILS_H */

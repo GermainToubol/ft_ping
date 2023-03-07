@@ -28,7 +28,7 @@
  * @brief table of icmp packet readers
  */
 static const t_packet_handler g_phandler[17] = {
-    NULL,
+    ft_handel_response,
     NULL,
     NULL,
     NULL,
@@ -79,5 +79,5 @@ void	ft_analyse_packet(const t_server *server, const void *buffer, size_t size)
 		return;
 	}
 	handler = g_phandler[icmppacket->type];
-	handler(server, icmppacket, size);
+	handler(server, ippacket, icmppacket, size - offset);
 }
