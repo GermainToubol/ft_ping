@@ -36,6 +36,9 @@ services:
     entrypoint:
       - "tail"
       - "-f"
+    cap_add:
+      - NET_RAW
+      - NET_ADMIN
 #    profiles:
 #      - "dev"
 #      - "compare"
