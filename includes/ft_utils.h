@@ -23,6 +23,6 @@
 #include <stdint.h>
 
 uint_least16_t ft_swap_16bits(uint_least16_t n);
-uint_least16_t ft_checksum(void *data, size_t size);
+uint_least16_t ft_checksum(const void *data, size_t size);
 
 #endif /* FT_UTILS_H */

@@ -90,6 +90,14 @@ typedef struct {
 /* IP packet *****************************************************************/
 
 /**
+ * @def MAX_IPPACKET_LENGTH
+ * @brief max length of a single IP packet
+ *
+ * Since the packet length holds on an uint16, it max length is 0xffff bytes
+ */
+#define MAX_IPPACKET_LENGTH 0xffff
+
+/**
  * @struct t_ip_packet
  * @brief description of an IP packet
  */
@@ -115,5 +123,6 @@ void ft_init_packet(t_icmp_packet *packet, const t_server *server);
 void ft_mark_packet(t_icmp_packet *packet, uint_least16_t packet_number);
 void ft_send_packet(const t_icmp_packet *packet, const t_server *server);
 void ft_receive_packet(const t_server *server);
+int ft_isvalid_ip_packet(const t_ip_packet *packet, size_t size);
 
 #endif /* FT_PACKET_H */

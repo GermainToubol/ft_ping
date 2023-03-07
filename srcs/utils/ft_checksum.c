@@ -24,7 +24,7 @@
  * the checksum field should be zero.  If the total length is odd, the received
  * data is padded with one octet of zeros for computing the checksum.
  */
-uint_least16_t ft_checksum(void *data, size_t size)
+uint_least16_t ft_checksum(const void *data, size_t size)
 {
 	uint64_t		checksum = 0;
 	const uint16_t	*buffer = data;

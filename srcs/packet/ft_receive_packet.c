@@ -31,7 +31,7 @@
  */
 void ft_receive_packet(const t_server *server)
 {
-	uint8_t buffer[255];
+	uint8_t buffer[MAX_IPPACKET_LENGTH];
 	struct iovec   iov[1];
 	struct msghdr  msg;
 	ssize_t size;
@@ -45,9 +45,10 @@ void ft_receive_packet(const t_server *server)
 
 	size = recvmsg(server->sockfd, &msg, 0);
 	if (size < 0)
+		return ;
+	if (!ft_isvalid_ip_packet((const t_ip_packet *)buffer, size))
 	{
-		dprintf(2, "signaled\n");
+		dprintf(2, "ft_ping: recv: invalid IP packet\n");
 		return ;
 	}
-	dprintf(2, "received: %ld\n", size);
 }
