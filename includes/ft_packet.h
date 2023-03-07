@@ -124,5 +124,19 @@ void ft_mark_packet(t_icmp_packet *packet, uint_least16_t packet_number);
 void ft_send_packet(const t_icmp_packet *packet, const t_server *server);
 void ft_receive_packet(const t_server *server);
 int ft_isvalid_ip_packet(const t_ip_packet *packet, size_t size);
+void ft_analyse_packet(const t_server *server, const void *buffer, size_t size);
+
+/* Packet handlers ********************************************************* */
+
+#define ICMP_ECHO_REQUEST 8
+#define ICMP_ECHO_REPLY 0
+
+typedef void (*t_packet_handler)(const t_server *, const t_icmp_packet *, size_t);
+
+void ft_handel_request(
+	const t_server *server,
+	const t_icmp_packet *packet,
+	size_t size);
+
 
 #endif /* FT_PACKET_H */

@@ -51,4 +51,5 @@ void ft_receive_packet(const t_server *server)
 		dprintf(2, "ft_ping: recv: invalid IP packet\n");
 		return ;
 	}
+	ft_analyse_packet(server, buffer, size);
 }
