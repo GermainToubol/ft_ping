@@ -30,6 +30,8 @@
 /*                                 Data types                                */
 /* ************************************************************************* */
 
+/* ICMP packet ************************************************************* */
+
 /**
  * @struct t_echo
  * @brief 2nd 32-bit field of an echo request/response
@@ -84,6 +86,26 @@ typedef struct {
 	};
 	uint_least8_t		data[];			/*!< data field in the packet */
 } t_icmp_packet;
+
+/* IP packet *****************************************************************/
+
+/**
+ * @struct t_ip_packet
+ * @brief description of an IP packet
+ */
+typedef struct {
+	uint8_t			IHL: 4;				/*!< IP Header Length  */
+	uint8_t			version: 4;			/*!< Version number */
+	uint_least8_t	unused;				/*!< Unused part in the project */
+	uint_least16_t	length;				/*!< Total length */
+	uint_least16_t	id;					/*!< Packet identifier */
+	uint_least16_t	unused2;			/*!< Unused part in the project */
+	uint_least8_t	ttl;				/*!< Time to live */
+	uint_least8_t	protocol;			/*!< Protocol number */
+	uint_least16_t	checksum;			/*!< Header checksum */
+	uint_least32_t	source;				/*!< Source IP */
+	uint_least32_t	dest;				/*!< Destination IP */
+} t_ip_packet;
 
 /* ************************************************************************* */
 /*                                 Functions                                 */
