@@ -142,7 +142,11 @@ void ft_handel_request(
 	const t_ip_packet *ip_packet,
 	const t_icmp_packet *packet,
 	size_t size);
-
+void ft_handel_unreachable(
+	const t_server *server,
+	const t_ip_packet *ip_packet,
+	const t_icmp_packet *packet,
+	size_t size);
 void ft_handel_response(
 	const t_server *server,
 	const t_ip_packet *ip_packet,

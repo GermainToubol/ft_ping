@@ -28,10 +28,10 @@
  * @brief table of icmp packet readers
  */
 static const t_packet_handler g_phandler[17] = {
-    ft_handel_response,
+    ft_handel_response,			/*!< type 0 => echo reply */
     NULL,
     NULL,
-    NULL,
+    ft_handel_unreachable,		/*!< type 3 => unreachable */
     NULL,
     NULL,
     NULL,

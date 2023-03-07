@@ -28,7 +28,8 @@
 
 /**
  * @fn void ft_handel_response(const t_server *server,
- * const t_icmp_packet *packet, size_t size)
+ * const t_ip_packet *ip_packet, const t_icmp_packet *packet,
+ * size_t size)
  *
  * @param server: current ping server
  * @param packer: incomming icmp packet (type 0)
@@ -59,7 +60,8 @@ void ft_handel_response(
 
 /**
  * @fn void ft_handel_request(const t_server *server,
- * const t_icmp_packet *packet, size_t size)
+ * const t_ip_packet *ip_packet, const t_icmp_packet *packet,
+ * size_t size)
  *
  * @param server: current ping server
  * @param packet: incomming icmp packet (type 8)
@@ -78,4 +80,33 @@ void ft_handel_request(
 	(void)packet;
 	(void)size;
 	dprintf(2, "ft_ping: stop pinging yourself!\n");
+}
+
+/**
+ * @fn void ft_handel_unreachable(const t_server *server,
+ * const t_ip_packet *ip_packet, const t_icmp_packet *packet,
+ * size_t size)
+ *
+ * @param server: current ping server
+ * @param ip_packet: incomming ip packet
+ * @param packet: incomming icmp packet
+ * @param size: size of the icmp packet
+ *
+ * @brief analyse the icmp unreachable packet
+ */
+void ft_handel_unreachable(
+	const t_server *server,
+	const t_ip_packet *ip_packet,
+	const t_icmp_packet *packet,
+	size_t size)
+{
+	char buffer[16];
+	const char reason[6][64] = {"net unreachable", "host unreachable", "protocol unreachable", "port unreachable", "fragmentation needed and DF set", "source route failed"};
+
+	if (packet->code > 5)
+		return ;
+	dprintf(2, "From %s %s\n", inet_ntop(AF_INET, &ip_packet->source, buffer, 16), reason[packet->code]);
+	(void)packet;
+	(void)server;
+	(void)size;
 }
