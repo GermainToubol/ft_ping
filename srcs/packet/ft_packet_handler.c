@@ -100,13 +100,50 @@ void ft_handel_unreachable(
 	const t_icmp_packet *packet,
 	size_t size)
 {
-	char buffer[16];
-	const char reason[6][64] = {"net unreachable", "host unreachable", "protocol unreachable", "port unreachable", "fragmentation needed and DF set", "source route failed"};
+	char		buffer[16];
+	const char	reason[6][64] = {
+		"Destination Network Unreachable",
+		"Destination Host Unreachable",
+		"Destination Protocol Unreachable",
+		"Destination Port Unreachable",
+		"Fragmentation needed and DF set",
+		"Source Route Failed"
+	};
 
 	if (packet->code > 5)
 		return ;
-	dprintf(2, "From %s %s\n", inet_ntop(AF_INET, &ip_packet->source, buffer, 16), reason[packet->code]);
-	(void)packet;
+	dprintf(2, "%ld bytes from %s: %s\n",
+			size, inet_ntop(AF_INET, &ip_packet->source, buffer, 16), reason[packet->code]);
 	(void)server;
-	(void)size;
+}
+
+/**
+ * @fn void ft_handle_time(const t_server *server,
+ * const t_ip_packet *ip_packet, cont t_icmp_packet *packet,
+ * size_t size)
+ *
+ * @param server: current ping server
+ * @param ip_packet: incomming ip packet
+ * @param packet: incomming icmp packet
+ * @param size: size of the icmp packet
+ *
+ * @brief analyse the icmp time exceeded packet
+ */
+void ft_handle_time(
+	const t_server *server,
+	const t_ip_packet *ip_packet,
+	const t_icmp_packet *packet,
+	size_t size)
+{
+	char		buffer[16];
+	const char	reason[2][64] = {
+		"Time to live exceeded",
+		"Fragment reassembly time exceeded"
+	};
+
+	if (packet->code > 5)
+		return ;
+	dprintf(2, "%ld bytes from %s: %s\n",
+			size, inet_ntop(AF_INET, &ip_packet->source, buffer, 16), reason[packet->code]);
+	(void)server;
 }

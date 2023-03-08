@@ -39,7 +39,7 @@ static const t_packet_handler g_phandler[17] = {
     ft_handel_request,			/*!< type 8 => echo request */
     NULL,
     NULL,
-    NULL,
+    ft_handle_time,				/*!< type 11 => time exceeded  */
     NULL,
     NULL,
     NULL,
