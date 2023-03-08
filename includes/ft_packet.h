@@ -157,5 +157,20 @@ void ft_handle_time(
 	const t_ip_packet *ip_packet,
 	const t_icmp_packet *packet,
 	size_t size);
+void ft_handle_problem(
+	const t_server *server,
+	const t_ip_packet *ip_packet,
+	const t_icmp_packet *packet,
+	size_t size);
+void ft_handle_quench(
+	const t_server *server,
+	const t_ip_packet *ip_packet,
+	const t_icmp_packet *packet,
+	size_t size);
+void ft_handle_redirect(
+	const t_server *server,
+	const t_ip_packet *ip_packet,
+	const t_icmp_packet *packet,
+	size_t size);
 
 #endif /* FT_PACKET_H */

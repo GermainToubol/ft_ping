@@ -32,15 +32,15 @@ static const t_packet_handler g_phandler[17] = {
     NULL,
     NULL,
     ft_handel_unreachable,		/*!< type 3 => unreachable */
-    NULL,
-    NULL,
+    ft_handle_quench,			/*!< type 4 => quench message */
+    ft_handle_redirect,			/*!< type 5 => redirection message */
     NULL,
     NULL,
     ft_handel_request,			/*!< type 8 => echo request */
     NULL,
     NULL,
     ft_handle_time,				/*!< type 11 => time exceeded  */
-    NULL,
+    ft_handle_problem,			/*!< type 12 => parameter problem */
     NULL,
     NULL,
     NULL,

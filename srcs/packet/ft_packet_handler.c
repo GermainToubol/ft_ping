@@ -141,9 +141,96 @@ void ft_handle_time(
 		"Fragment reassembly time exceeded"
 	};
 
-	if (packet->code > 5)
+	if (packet->code > 1)
 		return ;
 	dprintf(2, "%ld bytes from %s: %s\n",
 			size, inet_ntop(AF_INET, &ip_packet->source, buffer, 16), reason[packet->code]);
+	(void)server;
+}
+
+/**
+ * @fn void ft_handle_problem(const t_server *server,
+ * const t_ip_packet *ip_packet, cont t_icmp_packet *packet,
+ * size_t size)
+ *
+ * @param server: current ping server
+ * @param ip_packet: incomming ip packet
+ * @param packet: incomming icmp packet
+ * @param size: size of the icmp packet
+ *
+ * @brief analyse the icmp parameter problem packet
+ */
+void ft_handle_problem(
+	const t_server *server,
+	const t_ip_packet *ip_packet,
+	const t_icmp_packet *packet,
+	size_t size)
+{
+	char		buffer[16];
+
+	dprintf(2, "%ld bytes from %s: Problem at byte %hhu\n",
+			size, inet_ntop(AF_INET, &ip_packet->source, buffer, 16), packet->problem.ptr);
+	(void)server;
+}
+
+/**
+ * @fn void ft_handle_quench(const t_server *server,
+ * const t_ip_packet *ip_packet, cont t_icmp_packet *packet,
+ * size_t size)
+ *
+ * @param server: current ping server
+ * @param ip_packet: incomming ip packet
+ * @param packet: incomming icmp packet
+ * @param size: size of the icmp packet
+ *
+ * @brief analyse the icmp quench packet
+ */
+void ft_handle_quench(
+	const t_server *server,
+	const t_ip_packet *ip_packet,
+	const t_icmp_packet *packet,
+	size_t size)
+{
+	char		buffer[16];
+
+	if (packet->code != 0)
+		return ;
+	dprintf(2, "%ld bytes from %s: Quenched packet\n",
+			size, inet_ntop(AF_INET, &ip_packet->source, buffer, 16));
+	(void)server;
+}
+
+/**
+ * @fn void ft_handle_redirect(const t_server *server,
+ * const t_ip_packet *ip_packet, const t_icmp_packet *packet,
+ * size_t size)
+ *
+ * @param server: current ping server
+ * @param ip_packet: incomming ip packet
+ * @param packet: incomming icmp packet
+ * @param size: size of the icmp packet
+ *
+ * @brief analyse the icmp redirect packet
+ */
+void ft_handle_redirect(
+	const t_server *server,
+	const t_ip_packet *ip_packet,
+	const t_icmp_packet *packet,
+	size_t size)
+{
+	char		buffer[16];
+	char		buffer2[16];
+	const char	reason[4][64] = {
+		"Redirect datagrams for the Network",
+		"Redirect datagrams for the Host",
+		"Redirect datagrams for the Type of Service and Network",
+		"Redirect datagrams for the Type of Service and Host"
+	};
+
+	if (packet->code > 3)
+		return ;
+	dprintf(2, "%ld bytes from %s: %s (%s)\n",
+			size, inet_ntop(AF_INET, &ip_packet->source, buffer, 16), reason[packet->code],
+		 inet_ntop(AF_INET, &packet->gateway.address, buffer2, 16));
 	(void)server;
 }
