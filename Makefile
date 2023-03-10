@@ -32,7 +32,8 @@ SRC_LST		= main.c ft_clock.c ft_init.c ft_loop.c ft_close.c				\
 					ft_isvalid_ip_packet.c ft_analyse_packet.c				\
 					ft_packet_handler.c)									\
 				$(addprefix utils/,ft_swap_16bits.c ft_checksum.c 			\
-					ft_getdelay.c)
+					ft_getdelay.c)											\
+				$(addprefix statistics/,ft_statistics.c)
 
 # List of all object files (.o)
 # -------------------------------------------------------------------------
@@ -57,7 +58,7 @@ $(NAME):	$(LIB_FILES) $(OBJS)
 			@echo ""
 			@echo -e "$(_BLUE)Linkage $(NAME)$(_NO_COLOR)"
 			$(CC) $(CFLAGS) $(INCLUDES) -o $@ $(OBJS) $(LIB)
-			sudo setcap cap_net_raw+ep $@
+#			sudo setcap cap_net_raw+ep $@
 
 $(OBJ_DIR)/%.o:	$(SRC_DIR)/%.c start_compiling
 			@mkdir -p $(dir $@)
