@@ -24,6 +24,7 @@
 #include "libft.h"
 
 static const t_options g_opts[] = {
+	{"h", NULL, NULL, "print help and exit", ft_optusage},
     };
 
 static int ft_parse_long(int i, const char **argv, t_server *server);
@@ -70,6 +71,40 @@ int32_t ft_parseopts(int argc, const char **argv, t_server *server)
 	return (0);
 }
 
+/**
+ * @fn void ft_usage(void)
+ *
+ * @brief show the help
+ *
+ */
+void	ft_usage(void)
+{
+	dprintf(2, "\n");
+	dprintf(2, "Usage\n");
+	dprintf(2, "  ping [options] <destination>\n\n");
+	dprintf(2, "Options:\n");
+	dprintf(2, "  %-19s%s\n", "<destination>", "dns name or ip adress");
+	for (size_t i = 0; i < sizeof(g_opts) / sizeof(g_opts[0]); i++)
+	{
+		if (g_opts[i].parameter == NULL)
+			dprintf(2, "  -%-18s%s\n", g_opts[i].shortname, g_opts[i].description);
+		else
+			dprintf(2, "  -%s %-16s%s\n", g_opts[i].shortname,
+					g_opts[i].parameter, g_opts[i].description);
+	}
+	dprintf(2, "\n");
+}
+
+/**
+ * @fn int ft_parse_long(int i, const char **argv, t_server *server)
+ *
+ * @param i: argument position
+ * @param argv: arguments list
+ * @param server: current ping server
+ *
+ * @return -1 on failure, 1 if the function consumes 1 argument, 0 otherwise
+ *
+ */
 static int ft_parse_long(int i, const char **argv, t_server *server)
 {
 	for (size_t j = 0; j < sizeof(g_opts) / sizeof(g_opts[0]); j++)
@@ -81,6 +116,16 @@ static int ft_parse_long(int i, const char **argv, t_server *server)
 	return (-1);
 }
 
+/**
+ * @fn int ft_parse_short(int i, const char **argv, t_server *server)
+ *
+ * @param i: argument position
+ * @param argv: arguments list
+ * @param server: current ping server
+ *
+ * @return -1 on failure, 1 if the function consumes 1 argument, 0 otherwise
+ *
+ */
 static int ft_parse_short(int i, const char **argv, t_server *server)
 {
 	int ret;

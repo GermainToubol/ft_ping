@@ -43,6 +43,9 @@ typedef struct {
 	t_apply_opt	fnc;			/*!< Option specific parser */
 } t_options;
 
+void	ft_usage(void);
+
 int32_t ft_parseopts(int argc, const char **argv, t_server *server);
+int ft_optusage(const char *arg, t_server *server);
 
 #endif /* FT_OPTIONS_H */
