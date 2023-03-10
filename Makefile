@@ -18,7 +18,7 @@ INCLUDES	= $(addprefix -I,$(INCLUDE_DIR))
 
 LIB_NAMES	= ft
 LIB_FILES	= $(foreach l,$(LIB_NAMES),lib$l/lib$l.a)
-EXT_LIB		=
+EXT_LIB		= m
 LIB			= $(addprefix -Llib,$(LIB_NAMES)) $(addprefix -l,$(LIB_NAMES) $(EXT_LIB))
 
 # List of all sources (.c)
@@ -35,7 +35,7 @@ SRC_LST		= main.c ft_clock.c ft_init.c ft_loop.c ft_close.c				\
 					ft_getdelay.c)											\
 				$(addprefix statistics/,ft_statistics.c)					\
 				$(addprefix options/,ft_parseopts.c ft_optusage.c			\
-					ft_optflood.c)
+					ft_optflood.c ft_optcount.c)
 
 # List of all object files (.o)
 # -------------------------------------------------------------------------
@@ -60,7 +60,7 @@ $(NAME):	$(LIB_FILES) $(OBJS)
 			@echo ""
 			@echo -e "$(_BLUE)Linkage $(NAME)$(_NO_COLOR)"
 			$(CC) $(CFLAGS) $(INCLUDES) -o $@ $(OBJS) $(LIB)
-#			sudo setcap cap_net_raw+ep $@
+			sudo setcap cap_net_raw+ep $@
 
 $(OBJ_DIR)/%.o:	$(SRC_DIR)/%.c start_compiling
 			@mkdir -p $(dir $@)

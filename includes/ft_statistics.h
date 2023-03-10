@@ -27,9 +27,9 @@
  *
  */
 typedef struct {
-	uint32_t	n_send;			/*!< Number of sended packets */
-	uint32_t	n_received;		/*!< Number of received packets */
-	uint32_t	n_errors;		/*!< Error counter */
+	uint64_t	n_send;			/*!< Number of sended packets */
+	uint64_t	n_received;		/*!< Number of received packets */
+	uint64_t	n_errors;		/*!< Error counter */
 	float		min;			/*!< Minimal response time */
 	float		max;			/*!< Maximal response time */
 	float		avg;			/*!< Cummulative sum of response times */
@@ -41,5 +41,7 @@ void ft_add_received_valid(float delay);
 void ft_add_received_error(void);
 void ft_print_intermediate_stats(void);
 void ft_print_final_stats(void);
+uint64_t ft_get_send(void);
+uint64_t ft_get_received(void);
 
 #endif /* FT_STATISTICS_H */

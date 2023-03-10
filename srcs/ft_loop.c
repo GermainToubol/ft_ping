@@ -73,10 +73,11 @@ int32_t	ft_loop(const t_server *server)
 	packet_number = 1;
 	alarm(1);
 	dprintf(2, "PING \n");
-	while (g_continue)
+	dprintf(2, "count %ld\n", server->count);
+	while (g_continue && (server->count == 0 || server->count != (int64_t)ft_get_received()))
 	{
 		ft_mark_packet(packet, packet_number);
-		if (g_alarmed || server->flood)
+		if ((g_alarmed || server->flood) && (server->count == 0 || (uint64_t)server->count > ft_get_send()))
 		{
 			if (server->flood){
 				dprintf(2, ".\r");
