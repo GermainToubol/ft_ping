@@ -15,12 +15,14 @@
 #include <stdlib.h>
 
 #include "ft_ping.h"
+#include "libft.h"
 
 int	main(int argc, const char **argv)
 {
 	t_server	server;
 	int32_t		errcode;
 
+	ft_bzero(&server, sizeof(server));
 	errcode = ft_init(argc, argv, &server);
 	if (errcode == 0)
 		errcode = ft_loop(&server);

@@ -26,5 +26,6 @@
 int32_t ft_init_socket(t_server *server);
 int32_t ft_resolve_socket(t_server *server);
 void ft_clean_socket(t_server *server);
+int32_t ft_options_socket(const t_server *server);
 
 #endif /* FT_SOCKET_H */

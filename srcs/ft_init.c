@@ -18,6 +18,7 @@
 
 #include <stdint.h>
 
+#include "ft_options.h"
 #include "ft_ping.h"
 #include "ft_socket.h"
 
@@ -36,13 +37,12 @@
  */
 int32_t	ft_init(int argc, const char **argv, t_server *server)
 {
-	if (argc < 2)
+	if (ft_parseopts(argc, argv, server))
 		return (-1);
-	server->name = argv[1];
-
 	/* List of OR because each function is 0 on valid and !0 otherwise */
 	if (ft_init_socket(server)
-		|| ft_resolve_socket(server))
+		|| ft_resolve_socket(server)
+		|| ft_options_socket(server))
 		return (-1);
 	return (0);
 }

@@ -70,8 +70,6 @@ int32_t	ft_loop(const t_server *server)
 	signal(SIGALRM, tmp_alarm);
 
 	ft_init_packet(packet, server);
-	struct timeval delta = {.tv_sec = 0x7fffffff, .tv_usec = 0};
-	setsockopt(server->sockfd, SOL_SOCKET, SO_RCVTIMEO, &delta, sizeof(delta));
 	packet_number = 1;
 	alarm(1);
 	while (g_continue)
