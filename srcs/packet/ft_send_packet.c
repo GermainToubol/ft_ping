@@ -19,6 +19,7 @@
 
 #include <stdint.h>
 #include <sys/socket.h>
+#include <unistd.h>
 
 #include "ft_packet.h"
 #include "ft_ping.h"

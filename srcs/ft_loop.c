@@ -72,17 +72,22 @@ int32_t	ft_loop(const t_server *server)
 	ft_init_packet(packet, server);
 	packet_number = 1;
 	alarm(1);
+	dprintf(2, "PING \n");
 	while (g_continue)
 	{
 		ft_mark_packet(packet, packet_number);
-		if (g_alarmed)
+		if (g_alarmed || server->flood)
 		{
+			if (server->flood){
+				dprintf(2, ".\r");
+			}
 			ft_send_packet(packet, server);
 			packet_number++;
 		}
 		g_alarmed = 0;
 		ft_receive_packet(server);
 	}
+	alarm(0);
 	ft_print_final_stats();
 	return (0);
 }

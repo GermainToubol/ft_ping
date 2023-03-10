@@ -43,6 +43,7 @@ typedef struct {
 	t_clock			clock;						/*!< Hold the clock tick */
 
 	uint_least16_t	id;							/*!< Packet identifier */
+	int				flood;						/*!< Flood label */
 } t_server;
 
 int32_t ft_init(int argc, const char **argv, t_server *server);

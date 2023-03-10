@@ -49,7 +49,8 @@ void ft_receive_packet(const t_server *server)
 		return ;
 	if (!ft_isvalid_ip_packet((const t_ip_packet *)buffer, size))
 	{
-		dprintf(2, "ft_ping: recv: invalid IP packet\n");
+		if (!server->flood)
+			dprintf(2, "ft_ping: recv: invalid IP packet\n");
 		ft_add_received_error();
 		return ;
 	}

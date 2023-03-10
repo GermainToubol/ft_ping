@@ -24,6 +24,7 @@
 #include "libft.h"
 
 static const t_options g_opts[] = {
+	{"f", NULL, NULL, "flood ping", ft_optflood},
 	{"h", NULL, NULL, "print help and exit", ft_optusage},
     };
 

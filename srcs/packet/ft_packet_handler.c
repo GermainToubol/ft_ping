@@ -55,8 +55,11 @@ void ft_handel_response(
 	gettimeofday(&recvtime, NULL);
 	sendtime = (struct timeval *)packet->data;
 	delay = ft_getdelay(sendtime, &recvtime);
-	dprintf(2, "%ld bytes from %s: icmp_seq=%d ttl=%d time=%.3f ms\n",
-			size, inet_ntop(AF_INET, &ip_packet->source, buffer, 16), ft_swap_16bits(packet->echo.seq), ip_packet->ttl, delay);
+	if (!server->flood)
+		dprintf(2, "%ld bytes from %s: icmp_seq=%d ttl=%d time=%.3f ms\n",
+				size, inet_ntop(AF_INET, &ip_packet->source, buffer, 16), ft_swap_16bits(packet->echo.seq), ip_packet->ttl, delay);
+	else
+		dprintf(2, "/\r");
 	ft_add_received_valid(delay);
 }
 
@@ -78,9 +81,9 @@ void ft_handel_request(
 	size_t size)
 {
 	(void)ip_packet;
-	(void)server;
 	(void)packet;
 	(void)size;
+	ft_receive_packet(server);
 }
 
 /**
@@ -113,9 +116,9 @@ void ft_handel_unreachable(
 
 	if (packet->code > 5)
 		return ;
-	dprintf(2, "%ld bytes from %s: %s\n",
-			size, inet_ntop(AF_INET, &ip_packet->source, buffer, 16), reason[packet->code]);
-	(void)server;
+	if (!server->flood)
+		dprintf(2, "%ld bytes from %s: %s\n",
+				size, inet_ntop(AF_INET, &ip_packet->source, buffer, 16), reason[packet->code]);
 	ft_add_received_error();
 }
 
@@ -145,9 +148,10 @@ void ft_handle_time(
 
 	if (packet->code > 1)
 		return ;
-	dprintf(2, "%ld bytes from %s: %s\n",
-			size, inet_ntop(AF_INET, &ip_packet->source, buffer, 16), reason[packet->code]);
-	(void)server;
+	if (!server->flood)
+		dprintf(2, "%ld bytes from %s: %s\n",
+				size, inet_ntop(AF_INET, &ip_packet->source, buffer, 16), reason[packet->code]);
+	ft_add_received_error();
 }
 
 /**
@@ -170,9 +174,9 @@ void ft_handle_problem(
 {
 	char		buffer[16];
 
-	dprintf(2, "%ld bytes from %s: Problem at byte %hhu\n",
-			size, inet_ntop(AF_INET, &ip_packet->source, buffer, 16), packet->problem.ptr);
-	(void)server;
+	if (!server->flood)
+		dprintf(2, "%ld bytes from %s: Problem at byte %hhu\n",
+				size, inet_ntop(AF_INET, &ip_packet->source, buffer, 16), packet->problem.ptr);
 	ft_add_received_error();
 }
 
@@ -198,9 +202,9 @@ void ft_handle_quench(
 
 	if (packet->code != 0)
 		return ;
-	dprintf(2, "%ld bytes from %s: Quenched packet\n",
-			size, inet_ntop(AF_INET, &ip_packet->source, buffer, 16));
-	(void)server;
+	if (!server->flood)
+		dprintf(2, "%ld bytes from %s: Quenched packet\n",
+				size, inet_ntop(AF_INET, &ip_packet->source, buffer, 16));
 	ft_add_received_error();
 }
 
@@ -233,9 +237,9 @@ void ft_handle_redirect(
 
 	if (packet->code > 3)
 		return ;
-	dprintf(2, "%ld bytes from %s: %s (%s)\n",
-			size, inet_ntop(AF_INET, &ip_packet->source, buffer, 16), reason[packet->code],
-		 inet_ntop(AF_INET, &packet->gateway.address, buffer2, 16));
-	(void)server;
+	if (!server->flood)
+		dprintf(2, "%ld bytes from %s: %s (%s)\n",
+				size, inet_ntop(AF_INET, &ip_packet->source, buffer, 16), reason[packet->code],
+				inet_ntop(AF_INET, &packet->gateway.address, buffer2, 16));
 	ft_add_received_error();
 }

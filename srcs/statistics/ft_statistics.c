@@ -40,7 +40,7 @@ static t_stats g_stats = {
  */
 void	ft_add_send(void)
 {
-	g_stats.n_send++;
+	g_stats.n_send += 1;
 }
 
 /**
@@ -90,14 +90,14 @@ void	ft_print_intermediate_stats(void)
 
 	if (g_stats.n_received == 0)
 	{
-		dprintf(1, "0/%d packets, 100%% loss\n", g_stats.n_send);
+		dprintf(1, "0/%u packets, 100%% loss\n", g_stats.n_send);
 		return;
 	}
-	div = 1.f / (float)g_stats.n_received;
+	div = 1.f / (float)g_stats.n_send;
 	avg = g_stats.avg / g_stats.n_received;
 	mdev = sqrtf((g_stats.avg2 - g_stats.avg * g_stats.avg * div) * div);
-	prop = (float)(g_stats.n_send - g_stats.n_received) * div;
-	dprintf(1, "%d/%d packets, %.0f%% loss, min/avg/max/mdev %.3f/%.3f/%.3f/%.3f ms\n",
+	prop = (float)(g_stats.n_send - g_stats.n_received) * div * 100.f;
+	dprintf(1, "%u/%u packets, %.0f%% loss, min/avg/max/mdev %.3f/%.3f/%.3f/%.3f ms\n",
 			g_stats.n_received, g_stats.n_send, prop, g_stats.min, avg,
 			g_stats.max, mdev);
 }
@@ -117,30 +117,30 @@ void	ft_print_final_stats(void)
 
 	if (g_stats.n_received == 0 && g_stats.n_errors == 0)
 	{
-		dprintf(1, "%d packets transmitted, 0 received, 100%% packet loss\n",
+		dprintf(1, "%u packets transmitted, 0 received, 100%% packet loss\n",
 				g_stats.n_send);
 		return;
 	}
 	if (g_stats.n_received == 0)
 	{
-		dprintf(1, "%d packets transmitted, 0 received, %+d errors, 100%% \
+		dprintf(1, "%u packets transmitted, 0 received, +%u errors, 100%% \
 packet loss\n", g_stats.n_send, g_stats.n_errors);
 		return;
 	}
-	div = 1.f / (float)g_stats.n_received;
+	div = 1.f / (float)g_stats.n_send;
 	avg = g_stats.avg / g_stats.n_received;
 	mdev = sqrtf((g_stats.avg2 - g_stats.avg * g_stats.avg * div) * div);
-	prop = (float)(g_stats.n_send - g_stats.n_received) * div;
+	prop = (float)(g_stats.n_send - g_stats.n_received) * div * 100.f;
 	if (g_stats.n_errors == 0)
 	{
-                dprintf(1, "%d packets transmitted, %d received, %.0f%% loss, \
+                dprintf(1, "%u packets transmitted, %u received, %.0f%% loss, \
 min/avg/max/mdev %.3f/%.3f/%.3f/%.3f ms\n",
 				g_stats.n_send, g_stats.n_received, prop, g_stats.min, avg,
 				g_stats.max, mdev);
 		return ;
 	}
         dprintf(1,
-                "%d packets transmitted, %d received, %+d errors, %.0f%% loss, \
+                "%u packets transmitted, %u received, %+d errors, %.0f%% loss, \
 min/avg/max/mdev %.3f/%.3f/%.3f/%.3f ms\n",
 			g_stats.n_send, g_stats.n_received, g_stats.n_errors, prop,
 			g_stats.min, avg, g_stats.max, mdev);
