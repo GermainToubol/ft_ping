@@ -24,6 +24,7 @@
 
 #include "ft_packet.h"
 #include "ft_ping.h"
+#include "ft_statistics.h"
 #include "ft_utils.h"
 
 /**
@@ -56,6 +57,7 @@ void ft_handel_response(
 	delay = ft_getdelay(sendtime, &recvtime);
 	dprintf(2, "%ld bytes from %s: icmp_seq=%d ttl=%d time=%.3f ms\n",
 			size, inet_ntop(AF_INET, &ip_packet->source, buffer, 16), ft_swap_16bits(packet->echo.seq), ip_packet->ttl, delay);
+	ft_add_received_valid(delay);
 }
 
 /**
@@ -79,7 +81,6 @@ void ft_handel_request(
 	(void)server;
 	(void)packet;
 	(void)size;
-	dprintf(2, "ft_ping: stop pinging yourself!\n");
 }
 
 /**
@@ -115,6 +116,7 @@ void ft_handel_unreachable(
 	dprintf(2, "%ld bytes from %s: %s\n",
 			size, inet_ntop(AF_INET, &ip_packet->source, buffer, 16), reason[packet->code]);
 	(void)server;
+	ft_add_received_error();
 }
 
 /**
@@ -171,6 +173,7 @@ void ft_handle_problem(
 	dprintf(2, "%ld bytes from %s: Problem at byte %hhu\n",
 			size, inet_ntop(AF_INET, &ip_packet->source, buffer, 16), packet->problem.ptr);
 	(void)server;
+	ft_add_received_error();
 }
 
 /**
@@ -198,6 +201,7 @@ void ft_handle_quench(
 	dprintf(2, "%ld bytes from %s: Quenched packet\n",
 			size, inet_ntop(AF_INET, &ip_packet->source, buffer, 16));
 	(void)server;
+	ft_add_received_error();
 }
 
 /**
@@ -233,4 +237,5 @@ void ft_handle_redirect(
 			size, inet_ntop(AF_INET, &ip_packet->source, buffer, 16), reason[packet->code],
 		 inet_ntop(AF_INET, &packet->gateway.address, buffer2, 16));
 	(void)server;
+	ft_add_received_error();
 }

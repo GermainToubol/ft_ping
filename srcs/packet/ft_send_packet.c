@@ -22,6 +22,7 @@
 
 #include "ft_packet.h"
 #include "ft_ping.h"
+#include "ft_statistics.h"
 
 /**
  * @fn void ft_send_packet(const t_icmp_packet *packet, const t_server *server)
@@ -34,4 +35,5 @@
 void ft_send_packet(const t_icmp_packet *packet, const t_server *server)
 {
 	sendto(server->sockfd, packet, ICMP_ECHO_PACKET_LENGTH, 0, &server->s_addr, server->s_addrlen);
+	ft_add_send();
 }

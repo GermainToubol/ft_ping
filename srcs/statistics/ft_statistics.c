@@ -97,7 +97,7 @@ void	ft_print_intermediate_stats(void)
 	avg = g_stats.avg / g_stats.n_received;
 	mdev = sqrtf((g_stats.avg2 - g_stats.avg * g_stats.avg * div) * div);
 	prop = (float)(g_stats.n_send - g_stats.n_received) * div;
-	dprintf(1, "%d/%d packets, %.0f loss, min/avg/max/mdev %.3f/%.3f/%.3f/%.3f ms\n",
+	dprintf(1, "%d/%d packets, %.0f%% loss, min/avg/max/mdev %.3f/%.3f/%.3f/%.3f ms\n",
 			g_stats.n_received, g_stats.n_send, prop, g_stats.min, avg,
 			g_stats.max, mdev);
 }
@@ -133,14 +133,14 @@ packet loss\n", g_stats.n_send, g_stats.n_errors);
 	prop = (float)(g_stats.n_send - g_stats.n_received) * div;
 	if (g_stats.n_errors == 0)
 	{
-                dprintf(1, "%d packets transmitted, %d received, %.0f loss, \
+                dprintf(1, "%d packets transmitted, %d received, %.0f%% loss, \
 min/avg/max/mdev %.3f/%.3f/%.3f/%.3f ms\n",
 				g_stats.n_send, g_stats.n_received, prop, g_stats.min, avg,
 				g_stats.max, mdev);
 		return ;
 	}
         dprintf(1,
-                "%d packets transmitted, %d received, %+d errors, %.0f loss, \
+                "%d packets transmitted, %d received, %+d errors, %.0f%% loss, \
 min/avg/max/mdev %.3f/%.3f/%.3f/%.3f ms\n",
 			g_stats.n_send, g_stats.n_received, g_stats.n_errors, prop,
 			g_stats.min, avg, g_stats.max, mdev);

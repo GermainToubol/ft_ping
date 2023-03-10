@@ -22,6 +22,7 @@
 #include <sys/types.h>
 
 #include "ft_packet.h"
+#include "ft_statistics.h"
 #include "libft.h"
 
 /**
@@ -49,6 +50,7 @@ void ft_receive_packet(const t_server *server)
 	if (!ft_isvalid_ip_packet((const t_ip_packet *)buffer, size))
 	{
 		dprintf(2, "ft_ping: recv: invalid IP packet\n");
+		ft_add_received_error();
 		return ;
 	}
 	ft_analyse_packet(server, buffer, size);

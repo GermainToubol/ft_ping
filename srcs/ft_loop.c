@@ -25,6 +25,7 @@
 
 #include "ft_packet.h"
 #include "ft_ping.h"
+#include "ft_statistics.h"
 
 int g_continue = 1;
 int g_alarmed = 1;
@@ -40,6 +41,12 @@ void tmp_alarm(int i)
 	(void)i;
 	g_alarmed = 1;
 	alarm(1);
+}
+
+void tmp_stats(int i)
+{
+	(void)i;
+	ft_print_intermediate_stats();
 }
 
 /**
@@ -59,6 +66,7 @@ int32_t	ft_loop(const t_server *server)
 	uint_least16_t	packet_number;
 
 	signal(SIGINT, tmp_quit);
+	signal(SIGQUIT, tmp_stats);
 	signal(SIGALRM, tmp_alarm);
 
 	ft_init_packet(packet, server);
@@ -70,11 +78,13 @@ int32_t	ft_loop(const t_server *server)
 	{
 		ft_mark_packet(packet, packet_number);
 		if (g_alarmed)
+		{
 			ft_send_packet(packet, server);
+			packet_number++;
+		}
 		g_alarmed = 0;
 		ft_receive_packet(server);
-		packet_number++;
 	}
-	dprintf(2, "tagada\n");
+	ft_print_final_stats();
 	return (0);
 }

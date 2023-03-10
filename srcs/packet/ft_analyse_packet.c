@@ -21,6 +21,7 @@
 
 #include "ft_packet.h"
 #include "ft_ping.h"
+#include "ft_statistics.h"
 #include "ft_utils.h"
 
 /**
@@ -71,12 +72,14 @@ void	ft_analyse_packet(const t_server *server, const void *buffer, size_t size)
 		|| ft_checksum(icmppacket, size - offset) != 0)
 	{
 		dprintf(2, "ft_ping: recv: invalid icmp packet\n");
+		ft_add_received_error();
 		return ;
 	}
 	if (icmppacket->type > 16 || g_phandler[icmppacket->type] == NULL)
 	{
 		dprintf(2, "ft_ping: icmp packet: invalid packet type\n");
-		return;
+		ft_add_received_error();
+		return ;
 	}
 	handler = g_phandler[icmppacket->type];
 	handler(server, ippacket, icmppacket, size - offset);
