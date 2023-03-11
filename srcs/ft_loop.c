@@ -53,6 +53,7 @@ void tmp_stats(int i)
 
 static int ft_can_send_packet(const t_server *server);
 static int ft_send_timing(const t_server *server);
+static int ft_check_timeout(const t_server *server, int32_t delay);
 
 /**
  * @fn int32_t ft_loop(const t_server *server)
@@ -69,6 +70,8 @@ int32_t	ft_loop(const t_server *server)
 	uint_least8_t	buffer[256];
 	t_icmp_packet	*packet = (t_icmp_packet *)buffer;
 	uint_least16_t	packet_number;
+	int32_t			last_reception;
+	uint64_t		buff_reception = 0;
 
 	signal(SIGINT, tmp_quit);
 	signal(SIGQUIT, tmp_stats);
@@ -76,6 +79,7 @@ int32_t	ft_loop(const t_server *server)
 
 	ft_init_packet(packet, server);
 	packet_number = 1;
+	last_reception = 0;
 	alarm(1);
 	dprintf(2, "PING \n");
 	for (int i = 0; i < server->preload - 1 && ft_can_send_packet(server); i++)
@@ -87,6 +91,7 @@ int32_t	ft_loop(const t_server *server)
 	while (g_continue
 		   && (server->deadline == 0
 			   || server->deadline > g_clock)
+		   && ft_check_timeout(server, g_clock - last_reception)
 		   && (server->count == 0
 			   || server->count != (int64_t)ft_get_received()))
 	{
@@ -101,6 +106,11 @@ int32_t	ft_loop(const t_server *server)
 		}
 		g_alarmed = 0;
 		ft_receive_packet(server);
+		if (buff_reception != ft_get_received())
+		{
+			buff_reception = ft_get_received();
+			last_reception = g_clock;
+		}
 	}
 	alarm(0);
 	ft_print_final_stats();
@@ -135,4 +145,21 @@ static int ft_send_timing(const t_server *server)
 	return (server->flood
 			|| (g_alarmed
 				&& g_clock % server->interval == 0));
+}
+
+/**
+ * @fn int ft_check_timeout(const t_server *server, int32_t delay)
+ *
+ * @param server: current ping server
+ * @param delay: current delay since last packet reception
+ *
+ * @return 1 if timeout did not expired, 0 otherwise
+ *
+ */
+static int ft_check_timeout(const t_server *server, int32_t delay)
+{
+	if (server->timeout == 0 || server->timeout > delay)
+		return (1);
+	dprintf(2, "ft_ping: reception timeout expired\n");
+	return (0);
 }

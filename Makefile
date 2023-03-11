@@ -36,7 +36,8 @@ SRC_LST		= main.c ft_clock.c ft_init.c ft_loop.c ft_close.c				\
 				$(addprefix statistics/,ft_statistics.c)					\
 				$(addprefix options/,ft_parseopts.c ft_optusage.c			\
 					ft_optflood.c ft_optcount.c ft_optmark.c ft_optpreload.c\
-					ft_optinterval.c ft_optmtud.c ft_optdeadline.c)
+					ft_optinterval.c ft_optmtud.c ft_optdeadline.c			\
+					ft_opttimeout.c)
 
 # List of all object files (.o)
 # -------------------------------------------------------------------------

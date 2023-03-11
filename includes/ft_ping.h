@@ -62,6 +62,7 @@ typedef struct {
 	int32_t			interval;					/*!< Interval between sending */
 	t_mtud			mtud;						/*!< Mtud otpion */
 	int32_t			deadline;					/*!< Program deadline */
+	int32_t			timeout;					/*!< Reception timeout */
 } t_server;
 
 int32_t ft_init(int argc, const char **argv, t_server *server);
