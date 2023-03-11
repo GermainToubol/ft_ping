@@ -52,6 +52,7 @@ int ft_optcount(const char *arg, t_server *server);
 int ft_optmark(const char *arg, t_server *server);
 int ft_optpreload(const char *arg, t_server *server);
 int ft_optinterval(const char *arg, t_server *server);
-int	ft_optmtud(const char *arg, t_server *server);
+int ft_optmtud(const char *arg, t_server *server);
+int	ft_optdeadline(const char *arg, t_server *server);
 
 #endif /* FT_OPTIONS_H */

@@ -30,7 +30,8 @@ static const t_options g_opts[] = {
 	{"i", NULL, "<interval>", "interval between packets (s)", ft_optinterval},
 	{"l", NULL, "<preload>", "number of preloaded packets", ft_optpreload},
 	{"m", NULL, "<mark>", "mark the outgoing packets", ft_optmark},
-	{"M", NULL, "<pmtud opt>", "define mtu discovery, can be one of <do|dont|want>", ft_optmtud}
+	{"M", NULL, "<pmtud opt>", "define mtu discovery, can be one of <do|dont|want>", ft_optmtud},
+	{"w", NULL, "<deadline>", "end the program after <deadline> seconds", ft_optdeadline}
     };
 
 static int ft_parse_long(int i, const char **argv, t_server *server);

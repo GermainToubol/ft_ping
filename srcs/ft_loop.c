@@ -85,6 +85,8 @@ int32_t	ft_loop(const t_server *server)
 		packet_number++;
 	}
 	while (g_continue
+		   && (server->deadline == 0
+			   || server->deadline > g_clock)
 		   && (server->count == 0
 			   || server->count != (int64_t)ft_get_received()))
 	{
