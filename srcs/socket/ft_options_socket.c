@@ -53,6 +53,8 @@ static int ft_apply_recvtimeo(const t_server *server)
 
 static int ft_apply_mark(const t_server *server)
 {
+	if (server->mark < 0)
+		return (0);
 	if (setsockopt(server->sockfd, SOL_SOCKET, SO_MARK, &server->mark,
 				   sizeof(server->mark)))
 	{

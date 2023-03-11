@@ -27,6 +27,7 @@ static const t_options g_opts[] = {
 	{"c", NULL, "<count>", "send COUNT echo requests", ft_optcount},
 	{"f", NULL, NULL, "flood ping", ft_optflood},
 	{"h", NULL, NULL, "print help and exit", ft_optusage},
+	{"i", NULL, "<interval>", "interval between packets (s)", ft_optinterval},
 	{"l", NULL, "<preload>", "number of preloaded packets", ft_optpreload},
 	{"m", NULL, "<mark>", "mark the outgoing packets", ft_optmark}
     };

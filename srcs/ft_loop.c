@@ -29,6 +29,7 @@
 
 int g_continue = 1;
 int g_alarmed = 1;
+int32_t g_clock = 0;
 
 void tmp_quit(int i)
 {
@@ -40,6 +41,7 @@ void tmp_alarm(int i)
 {
 	(void)i;
 	g_alarmed = 1;
+	g_clock++;
 	alarm(1);
 }
 
@@ -50,6 +52,7 @@ void tmp_stats(int i)
 }
 
 static int ft_can_send_packet(const t_server *server);
+static int ft_send_timing(const t_server *server);
 
 /**
  * @fn int32_t ft_loop(const t_server *server)
@@ -86,7 +89,7 @@ int32_t	ft_loop(const t_server *server)
 			   || server->count != (int64_t)ft_get_received()))
 	{
 		ft_mark_packet(packet, packet_number);
-		if ((g_alarmed || server->flood) && ft_can_send_packet(server))
+		if (ft_send_timing(server) && ft_can_send_packet(server))
 		{
 			if (server->flood){
 				dprintf(2, ".\r");
@@ -115,4 +118,19 @@ int32_t	ft_loop(const t_server *server)
 static int ft_can_send_packet(const t_server *server)
 {
 	return (server->count == 0 || (uint64_t)server->count > ft_get_send());
+}
+
+/**
+ * @fn int ft_send_timing(const t_server *server)
+ *
+ * @param server: current ping server
+ *
+ * @return 1 on send timing, 0 otherwise
+ *
+ */
+static int ft_send_timing(const t_server *server)
+{
+	return (server->flood
+			|| (g_alarmed
+				&& g_clock % server->interval == 0));
 }
