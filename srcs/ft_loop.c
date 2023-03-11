@@ -49,6 +49,8 @@ void tmp_stats(int i)
 	ft_print_intermediate_stats();
 }
 
+static int ft_can_send_packet(const t_server *server);
+
 /**
  * @fn int32_t ft_loop(const t_server *server)
  *
@@ -73,11 +75,18 @@ int32_t	ft_loop(const t_server *server)
 	packet_number = 1;
 	alarm(1);
 	dprintf(2, "PING \n");
-	dprintf(2, "count %ld\n", server->count);
-	while (g_continue && (server->count == 0 || server->count != (int64_t)ft_get_received()))
+	for (int i = 0; i < server->preload - 1 && ft_can_send_packet(server); i++)
 	{
 		ft_mark_packet(packet, packet_number);
-		if ((g_alarmed || server->flood) && (server->count == 0 || (uint64_t)server->count > ft_get_send()))
+		ft_send_packet(packet, server);
+		packet_number++;
+	}
+	while (g_continue
+		   && (server->count == 0
+			   || server->count != (int64_t)ft_get_received()))
+	{
+		ft_mark_packet(packet, packet_number);
+		if ((g_alarmed || server->flood) && ft_can_send_packet(server))
 		{
 			if (server->flood){
 				dprintf(2, ".\r");
@@ -91,4 +100,19 @@ int32_t	ft_loop(const t_server *server)
 	alarm(0);
 	ft_print_final_stats();
 	return (0);
+}
+
+/**
+ * @fn int ft_can_send_packet(const t_server *server)
+ *
+ * @param server: current ping server
+ *
+ * @return 1 if sending is allowed, 0 otherwise
+ *
+ * @brief check if sending packet is allowed.
+ *
+ */
+static int ft_can_send_packet(const t_server *server)
+{
+	return (server->count == 0 || (uint64_t)server->count > ft_get_send());
 }

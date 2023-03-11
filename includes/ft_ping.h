@@ -46,6 +46,7 @@ typedef struct {
 	int				flood;						/*!< Flood label */
 	int64_t			count;						/*!< Counter */
 	int32_t			mark;						/*!< Mark outgoing packets */
+	int32_t			preload;					/*!< Number of preloaded packets */
 } t_server;
 
 int32_t ft_init(int argc, const char **argv, t_server *server);
