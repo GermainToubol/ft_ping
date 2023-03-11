@@ -6,6 +6,7 @@
 
 #include <asm-generic/socket.h>
 #include <errno.h>
+#include <netinet/in.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
@@ -17,6 +18,7 @@
 
 static int ft_apply_recvtimeo(const t_server *server);
 static int ft_apply_mark(const t_server *server);
+static int ft_apply_mtu(const t_server *server);
 
 /**
  * @fn int32_t ft_options_socket(const t_server *server)
@@ -33,6 +35,8 @@ int32_t	ft_options_socket(const t_server *server)
 	if (ft_apply_recvtimeo(server))
 		return (-1);
 	if (ft_apply_mark(server))
+		return (-1);
+	if (ft_apply_mtu(server))
 		return (-1);
 	return (0);
 }
@@ -60,6 +64,26 @@ static int ft_apply_mark(const t_server *server)
 	{
 		dprintf(2, "ft_ping: Warning: Failed to set mark: %d: %s\n",
 				server->mark, strerror(errno));
+	}
+	return (0);
+}
+
+static int ft_apply_mtu(const t_server *server)
+{
+	const int opt[3] = {
+		IP_PMTUDISC_DO,
+		IP_PMTUDISC_DONT,
+		IP_PMTUDISC_WANT
+	};
+
+	if (server->mtud == NO_MTUD)
+		return (0);
+	if (setsockopt(server->sockfd, SOL_IP, IP_MTU_DISCOVER, opt + 1,
+				   sizeof(opt[0])))
+	{
+		dprintf(2, "ft_ping: Warning: Failed to set mark: %d: %s\n",
+				server->mark, strerror(errno));
+		return (-1);
 	}
 	return (0);
 }

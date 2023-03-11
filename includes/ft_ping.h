@@ -27,6 +27,18 @@
 typedef uint64_t t_clock;
 
 /**
+ * @enum t_mtud
+ * @brief define the kind of pmtud option
+ *
+ */
+typedef enum {
+	MTUD_DO = 0,
+	MTUD_DONT = 1,
+	MTUD_WANT = 2,
+	NO_MTUD
+} t_mtud;
+
+/**
  * @struct t_server
  * @brief Server core
  *
@@ -48,6 +60,7 @@ typedef struct {
 	int32_t			mark;						/*!< Mark outgoing packets */
 	int32_t			preload;					/*!< Number of preloaded packets */
 	int32_t			interval;					/*!< Interval between sending */
+	t_mtud			mtud;						/*!< Mtud otpion */
 } t_server;
 
 int32_t ft_init(int argc, const char **argv, t_server *server);

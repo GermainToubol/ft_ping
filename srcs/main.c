@@ -26,6 +26,7 @@ int	main(int argc, const char **argv)
 	server.mark = -1;
 	server.preload = 1;
 	server.interval = 1;
+	server.mtud = NO_MTUD;
 	errcode = ft_init(argc, argv, &server);
 	if (errcode == 0)
 		errcode = ft_loop(&server);

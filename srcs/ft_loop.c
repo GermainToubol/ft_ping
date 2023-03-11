@@ -27,9 +27,9 @@
 #include "ft_ping.h"
 #include "ft_statistics.h"
 
-int g_continue = 1;
-int g_alarmed = 1;
-int32_t g_clock = 0;
+static int		g_continue = 1;
+static int		g_alarmed = 1;
+static int32_t	g_clock = 0;
 
 void tmp_quit(int i)
 {
