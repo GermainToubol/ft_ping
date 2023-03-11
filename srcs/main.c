@@ -23,6 +23,7 @@ int	main(int argc, const char **argv)
 	int32_t		errcode;
 
 	ft_bzero(&server, sizeof(server));
+	server.mark = -1;
 	errcode = ft_init(argc, argv, &server);
 	if (errcode == 0)
 		errcode = ft_loop(&server);

@@ -4,6 +4,7 @@
  *
  */
 
+#include <asm-generic/socket.h>
 #include <errno.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -13,6 +14,9 @@
 
 #include "ft_ping.h"
 #include "ft_socket.h"
+
+static int ft_apply_recvtimeo(const t_server *server);
+static int ft_apply_mark(const t_server *server);
 
 /**
  * @fn int32_t ft_options_socket(const t_server *server)
@@ -26,19 +30,34 @@
  */
 int32_t	ft_options_socket(const t_server *server)
 {
-	int errcode;
+	if (ft_apply_recvtimeo(server))
+		return (-1);
+	if (ft_apply_mark(server))
+		return (-1);
+	return (0);
+}
 
+static int ft_apply_recvtimeo(const t_server *server)
+{
 	struct timeval delta = {.tv_sec = 0x7fffffff, .tv_usec = 0};
+
 	if (server->flood)
-	{
-		delta.tv_sec = 0;
-		delta.tv_usec = 10000;
-	}
-	errcode = setsockopt(server->sockfd, SOL_SOCKET, SO_RCVTIMEO, &delta, sizeof(delta));
-	if (errcode)
+		delta = (struct timeval){0, 10000};
+	if(setsockopt(server->sockfd, SOL_SOCKET, SO_RCVTIMEO, &delta, sizeof(delta)))
 	{
 		dprintf(2, "ft_ping: socket: %s\n", strerror(errno));
 		return (-1);
+	}
+	return (0);
+}
+
+static int ft_apply_mark(const t_server *server)
+{
+	if (setsockopt(server->sockfd, SOL_SOCKET, SO_MARK, &server->mark,
+				   sizeof(server->mark)))
+	{
+		dprintf(2, "ft_ping: Warning: Failed to set mark: %d: %s\n",
+				server->mark, strerror(errno));
 	}
 	return (0);
 }

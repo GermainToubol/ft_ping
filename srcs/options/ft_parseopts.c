@@ -27,6 +27,7 @@ static const t_options g_opts[] = {
 	{"c", NULL, "<count>", "send COUNT echo requests", ft_optcount},
 	{"f", NULL, NULL, "flood ping", ft_optflood},
 	{"h", NULL, NULL, "print help and exit", ft_optusage},
+	{"m", NULL, "<mark>", "mark the outgoing packets", ft_optmark}
     };
 
 static int ft_parse_long(int i, const char **argv, t_server *server);
