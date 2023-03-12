@@ -4,7 +4,6 @@
  *
  */
 
-#include <asm-generic/socket.h>
 #include <errno.h>
 #include <netinet/in.h>
 #include <stdint.h>

@@ -65,6 +65,7 @@ typedef struct {
 	int32_t			timeout;					/*!< Reception timeout */
 	uint8_t			pattern[16];				/*!< Padding pattern */
 	uint32_t		pattern_length;				/*!< Pattern length */
+	int				verbose;					/*!< Verbosity option */
 } t_server;
 
 int32_t ft_init(int argc, const char **argv, t_server *server);
