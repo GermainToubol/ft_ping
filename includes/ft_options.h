@@ -55,5 +55,6 @@ int ft_optinterval(const char *arg, t_server *server);
 int ft_optmtud(const char *arg, t_server *server);
 int ft_optdeadline(const char *arg, t_server *server);
 int ft_opttimeout(const char *arg, t_server *server);
+int	ft_optpattern(const char *s, t_server *server);
 
 #endif /* FT_OPTIONS_H */

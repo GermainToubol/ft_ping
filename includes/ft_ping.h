@@ -63,6 +63,8 @@ typedef struct {
 	t_mtud			mtud;						/*!< Mtud otpion */
 	int32_t			deadline;					/*!< Program deadline */
 	int32_t			timeout;					/*!< Reception timeout */
+	uint8_t			pattern[16];				/*!< Padding pattern */
+	uint32_t		pattern_length;				/*!< Pattern length */
 } t_server;
 
 int32_t ft_init(int argc, const char **argv, t_server *server);

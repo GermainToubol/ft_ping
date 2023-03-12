@@ -31,6 +31,7 @@ static const t_options g_opts[] = {
 	{"l", NULL, "<preload>", "number of preloaded packets", ft_optpreload},
 	{"m", NULL, "<mark>", "mark the outgoing packets", ft_optmark},
 	{"M", NULL, "<pmtud opt>", "define mtu discovery, can be one of <do|dont|want>", ft_optmtud},
+	{"p", NULL, "<pattern>", "set the padding bytes pattern", ft_optpattern},
 	{"w", NULL, "<deadline>", "end the program after <deadline> seconds", ft_optdeadline},
 	{"W", NULL, "<timeout>", "", ft_opttimeout}
     };

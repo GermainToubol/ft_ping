@@ -13,8 +13,10 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 #include "ft_ping.h"
+#include "ft_utils.h"
 #include "libft.h"
 
 int	main(int argc, const char **argv)
@@ -23,6 +25,7 @@ int	main(int argc, const char **argv)
 	int32_t		errcode;
 
 	ft_bzero(&server, sizeof(server));
+	server.id = ft_swap_16bits((uint_least16_t)getpid());
 	server.mark = -1;
 	server.preload = 1;
 	server.interval = 1;
