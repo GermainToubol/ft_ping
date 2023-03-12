@@ -17,6 +17,7 @@
  * Main utility looping arround sending and reading packets
  */
 
+#include <arpa/inet.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <sys/socket.h>
@@ -81,7 +82,7 @@ int32_t	ft_loop(const t_server *server)
 	packet_number = 1;
 	last_reception = 0;
 	alarm(1);
-	dprintf(2, "PING \n");
+	dprintf(1, "PING %s (%s) 56(84) bytes of data\n", server->name, server->ip);
 	for (int i = 0; i < server->preload - 1 && ft_can_send_packet(server); i++)
 	{
 		ft_mark_packet(packet, packet_number);
@@ -113,6 +114,7 @@ int32_t	ft_loop(const t_server *server)
 		}
 	}
 	alarm(0);
+	dprintf(1, "\n--- %s ping statistics ---\n", server->name);
 	ft_print_final_stats();
 	return (0);
 }

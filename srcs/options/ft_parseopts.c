@@ -76,7 +76,10 @@ int32_t ft_parseopts(int argc, const char **argv, t_server *server)
 			server->name = argv[i];
 	}
 	if (server->name == NULL)
+	{
+		dprintf(2, "ft_ping: usage error: Destination address required\n");
 		return (-1);
+	}
 	return (0);
 }
 
@@ -122,6 +125,8 @@ static int ft_parse_long(int i, const char **argv, t_server *server)
 			&& ft_strcmp(g_opts[j].longname , argv[i] + 2) == 0)
 			return (g_opts[j].fnc(argv[i + 1], server));
 	}
+	dprintf(2, "ft_ping: invalid option -- '%s'\n", argv[i] + 2);
+	ft_usage();
 	return (-1);
 }
 
@@ -153,9 +158,14 @@ static int ft_parse_short(int i, const char **argv, t_server *server)
 					ret = g_opts[k].fnc(argv[i + 1], server);
 				else
 					ret = g_opts[k].fnc(argv[i] + j + 1, server);
-				break ;
+				goto nextloop;
 			}
 		}
+		dprintf(2, "ft_ping: invalid option -- '%c'\n", argv[i][j]);
+		ft_usage();
+		return (-1);
+
+	nextloop:
 		if (ret < 0)
 			return (-1);
 		if (has_opt)

@@ -18,6 +18,7 @@
 
 #include <arpa/inet.h>
 #include <netdb.h>
+#include <netinet/in.h>
 #include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -40,7 +41,7 @@ int32_t	ft_resolve_socket(t_server *server)
 {
 	int	errcode;
 
-	inet_ntop(AF_INET, &server->s_addr, server->ip, 16);
+	inet_ntop(AF_INET, &((struct sockaddr_in *)&server->s_addr)->sin_addr , server->ip, 16);
 	errcode = getnameinfo(&server->s_addr, server->s_addrlen, server->resolved_name, NI_MAXHOST, NULL, 0, 0);
 	if (errcode)
 	{
