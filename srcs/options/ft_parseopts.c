@@ -34,7 +34,7 @@ static const t_options g_opts[] = {
 	{"p", NULL, "<pattern>", "set the padding bytes pattern", ft_optpattern},
 	{"v", NULL, NULL, "verbose output", ft_optverbose},
 	{"w", NULL, "<deadline>", "end the program after <deadline> seconds", ft_optdeadline},
-	{"W", NULL, "<timeout>", "", ft_opttimeout}
+	{"W", NULL, "<timeout>", "Stop if no response have been received in <timeout> seconds", ft_opttimeout}
     };
 
 static int ft_parse_long(int i, const char **argv, t_server *server);

@@ -55,6 +55,7 @@ void tmp_stats(int i)
 static int ft_can_send_packet(const t_server *server);
 static int ft_send_timing(const t_server *server);
 static int ft_check_timeout(const t_server *server, int32_t delay);
+static uint_least16_t	ft_preload(const t_server *server, t_icmp_packet *packet);
 
 /**
  * @fn int32_t ft_loop(const t_server *server)
@@ -79,16 +80,13 @@ int32_t	ft_loop(const t_server *server)
 	signal(SIGALRM, tmp_alarm);
 
 	ft_init_packet(packet, server);
-	packet_number = 1;
 	last_reception = 0;
 	alarm(1);
-	dprintf(1, "PING %s (%s) 56(84) bytes of data\n", server->name, server->ip);
-	for (int i = 0; i < server->preload - 1 && ft_can_send_packet(server); i++)
-	{
-		ft_mark_packet(packet, packet_number);
-		ft_send_packet(packet, server);
-		packet_number++;
-	}
+	if (server->verbose)
+		dprintf(1, "PING %s (%s) 56(84) bytes of data idx = %hu\n", server->name, server->ip, server->id);
+	else
+		dprintf(1, "PING %s (%s) 56(84) bytes of data\n", server->name, server->ip);
+	packet_number = ft_preload(server, packet);
 	while (g_continue
 		   && (server->deadline == 0
 			   || server->deadline > g_clock)
@@ -160,8 +158,34 @@ static int ft_send_timing(const t_server *server)
  */
 static int ft_check_timeout(const t_server *server, int32_t delay)
 {
-	if (server->timeout == 0 || server->timeout > delay)
-		return (1);
-	dprintf(2, "ft_ping: reception timeout expired\n");
-	return (0);
+	if (server->timeout != 0 && (server->timeout <= delay && ft_get_send() != ft_get_received()))
+	{
+		dprintf(2, "ft_ping: reception timeout expired\n");
+		return (0);
+	}
+	return (1);
+}
+
+/**
+ * @fn uint_least16_t ft_preload(const t_server *server, t_packet *packet)
+ *
+ * @param server: current ping server
+ * @param packer: base packet
+ *
+ * @return the next packet number
+ *
+ * @brief send the (n-1) preloaded packets
+ *
+ */
+static uint16_t	ft_preload(const t_server *server, t_icmp_packet *packet)
+{
+	uint_least16_t	packet_number = 1;
+
+	for (int i = 0; i < server->preload - 1 && ft_can_send_packet(server); i++)
+	{
+		ft_mark_packet(packet, packet_number);
+		ft_send_packet(packet, server);
+		packet_number++;
+	}
+	return (packet_number);
 }

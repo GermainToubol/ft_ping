@@ -98,6 +98,21 @@ typedef struct {
 #define MAX_IPPACKET_LENGTH 0xffff
 
 /**
+ * @enum e_ip_errors
+ * @brief IP Packet errors
+ *
+ */
+enum e_ip_errors
+{
+	IP_ERROR_SUCCESS = 0,
+	IP_ERROR_BADSIZE,
+	IP_ERROR_INVALID_HEADER_SIZE,
+	IP_ERROR_BAD_VERSION,
+	IP_ERROR_INVALID_CHECKSUM,
+	IP_ERROR_INCOMPLETE_PACKET
+};
+
+/**
  * @struct t_ip_packet
  * @brief description of an IP packet
  */

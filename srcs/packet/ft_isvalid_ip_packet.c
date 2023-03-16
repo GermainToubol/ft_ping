@@ -39,11 +39,15 @@ int	ft_isvalid_ip_packet(const t_ip_packet *packet, size_t size)
 	size_t	ihl;
 
 	if (size < sizeof(*packet))
-		return (0);
+		return (IP_ERROR_BADSIZE);
 	ihl = packet->IHL * 4;		/* 4 octets by 32 bits parts */
-	if (size < ihl
-		|| ft_checksum(packet, ihl) != 0
-		|| ft_swap_16bits(packet->length) != size)
-		return (0);
-	return (1);
+	if (size < ihl)
+		return (IP_ERROR_INVALID_HEADER_SIZE);
+	if (packet->version != 4)
+		return (IP_ERROR_BAD_VERSION);
+	if (ft_checksum(packet, ihl) != 0)
+		return (IP_ERROR_INVALID_CHECKSUM);
+	if (ft_swap_16bits(packet->length) != size)
+		return (IP_ERROR_INCOMPLETE_PACKET);
+	return (IP_ERROR_SUCCESS);
 }
