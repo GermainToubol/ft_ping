@@ -57,8 +57,14 @@ void ft_handel_response(
 	sendtime = (struct timeval *)packet->data;
 	delay = ft_getdelay(sendtime, &recvtime);
 	if (!server->flood)
-		dprintf(1, "%ld bytes from %s: icmp_seq=%d ttl=%d time=%.3f ms\n",
-				size, inet_ntop(AF_INET, &ip_packet->source, buffer, 16), ft_swap_16bits(packet->echo.seq), ip_packet->ttl, delay);
+	{
+		if (!server->resolve)
+			dprintf(1, "%ld bytes from %s: icmp_seq=%d ttl=%d time=%.3f ms\n",
+					size, inet_ntop(AF_INET, &ip_packet->source, buffer, 16), ft_swap_16bits(packet->echo.seq), ip_packet->ttl, delay);
+		else
+			dprintf(1, "%ld bytes from %s (%s): icmp_seq=%d ttl=%d time=%.3f ms\n",
+					size, ft_resolve(server, ip_packet->source), inet_ntop(AF_INET, &ip_packet->source, buffer, 16), ft_swap_16bits(packet->echo.seq), ip_packet->ttl, delay);
+	}
 	else
 		dprintf(1, "/\r");
 	ft_add_received_valid(delay);

@@ -38,6 +38,21 @@ typedef enum {
 	NO_MTUD
 } t_mtud;
 
+#define CACHE_SIZE 3
+
+/**
+ * @struct t_cache
+ * @brief cache the address resolution
+ *
+ * Serves as DNS resolution cache. Cache does not
+ * expire.
+ */
+typedef struct {
+	uint8_t		ncache;			 				/*!< Number of current cached addresses */
+	uint32_t	ip[CACHE_SIZE];					/*!< Resolved IPs */
+	char		name[CACHE_SIZE][NI_MAXHOST];	/*!< Resolved names */
+}	t_cache;
+
 /**
  * @struct t_server
  * @brief Server core
@@ -67,6 +82,8 @@ typedef struct {
 	uint32_t		pattern_length;				/*!< Pattern length */
 	int				verbose;					/*!< Verbosity option */
 	uint8_t			ttl;						/*!< Echo request ttl */
+	int				resolve;					/*!< Resolve option */
+	t_cache			*cache;						/*!< Current address cache */
 } t_server;
 
 int32_t ft_init(int argc, const char **argv, t_server *server);

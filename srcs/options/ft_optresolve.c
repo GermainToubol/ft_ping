@@ -1,31 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_utils.h                                         :+:      :+:    :+:   */
+/*   ft_optresolve.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gtoubol <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/06 17:44:52 by gtoubol           #+#    #+#             */
-/*   Updated: 2023/03/06 17:44:52 by gtoubol          ###   ########.fr       */
+/*   Created: 2023/03/17 20:30:00 by gtoubol           #+#    #+#             */
+/*   Updated: 2023/03/17 20:30:00 by gtoubol          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /**
- * @file ft_utils.h
- * @brief small utilitaries
+ * @file ft_optresolve.c
+ * @brief Add a resolution option
  *
  */
 
-#ifndef FT_UTILS_H
-#define FT_UTILS_H
+#include "ft_options.h"
+#include "ft_ping.h"
 
-#include <stddef.h>
-#include <stdint.h>
-#include <sys/types.h>
-
-uint_least16_t ft_swap_16bits(uint_least16_t n);
-uint_least16_t ft_checksum(const void *data, size_t size);
-float ft_getdelay(const struct timeval *start, const struct timeval *end);
-int ft_is_ip(const char *ipstr);
-
-#endif /* FT_UTILS_H */
+/**
+ * @fn int ft_optresolve(const char *arg, t_server *server)
+ *
+ */
+int	ft_optresolve(const char *arg, t_server *server)
+{
+	(void)arg;
+	server->resolve = 0;
+	return (0);
+}

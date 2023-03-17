@@ -31,6 +31,7 @@ static const t_options g_opts[] = {
 	{"l", NULL, "<preload>", "number of preloaded packets", ft_optpreload},
 	{"m", NULL, "<mark>", "mark the outgoing packets", ft_optmark},
 	{"M", NULL, "<pmtud opt>", "define mtu discovery, can be one of <do|dont|want>", ft_optmtud},
+	{"n", NULL, NULL, "disable reverse DNS name resolution", ft_optresolve},
 	{"p", NULL, "<pattern>", "set the padding bytes pattern", ft_optpattern},
 	{"t", NULL, "<ttl>", "set request ttl", ft_optttl},
 	{"v", NULL, NULL, "verbose output", ft_optverbose},

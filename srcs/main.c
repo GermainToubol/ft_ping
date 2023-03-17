@@ -22,9 +22,11 @@
 int	main(int argc, const char **argv)
 {
 	t_server	server;
+	t_cache		cache;
 	int32_t		errcode;
 
 	ft_bzero(&server, sizeof(server));
+	ft_bzero(&cache, sizeof(cache));
 	server.id = ft_swap_16bits((uint_least16_t)getpid());
 	server.mark = -1;
 	server.preload = 1;
@@ -33,6 +35,8 @@ int	main(int argc, const char **argv)
 	server.deadline = 0;
 	server.timeout = 0;
 	server.ttl = 64;
+	server.resolve = 1;
+	server.cache = &cache;
 	errcode = ft_init(argc, argv, &server);
 	if (errcode == 0)
 		errcode = ft_loop(&server);

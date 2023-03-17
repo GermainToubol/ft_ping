@@ -15,12 +15,13 @@
  *
  * Wrap around the server initialisation, option parsing
  */
-
+#include <stdio.h>
 #include <stdint.h>
 
 #include "ft_options.h"
 #include "ft_ping.h"
 #include "ft_socket.h"
+#include "ft_utils.h"
 
 /**
  * @fn int32_t ft_init(int argc, const char **argv, t_server *server)
@@ -39,6 +40,9 @@ int32_t	ft_init(int argc, const char **argv, t_server *server)
 {
 	if (ft_parseopts(argc, argv, server))
 		return (-1);
+	if (ft_is_ip(server->name))
+		server->resolve = 0;
+
 	/* List of OR because each function is 0 on valid and !0 otherwise */
 	if (ft_init_socket(server)
 		|| ft_resolve_socket(server)
