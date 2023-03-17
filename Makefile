@@ -30,7 +30,7 @@ SRC_LST		= main.c ft_clock.c ft_init.c ft_loop.c ft_close.c				\
 				$(addprefix packet/,ft_init_packet.c ft_mark_packet.c		\
 					ft_send_packet.c ft_receive_packet.c 					\
 					ft_isvalid_ip_packet.c ft_analyse_packet.c				\
-					ft_packet_handler.c)									\
+					ft_packet_handler.c ft_dump_packet.c)					\
 				$(addprefix utils/,ft_swap_16bits.c ft_checksum.c 			\
 					ft_getdelay.c)											\
 				$(addprefix statistics/,ft_statistics.c)					\

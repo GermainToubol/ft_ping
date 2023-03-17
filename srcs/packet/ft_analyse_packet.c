@@ -68,18 +68,36 @@ void	ft_analyse_packet(const t_server *server, const void *buffer, size_t size)
 	const t_icmp_packet	*icmppacket = buffer + offset;
 	t_packet_handler	handler;
 
-	if (size - offset < sizeof(*icmppacket)
+	if (size < offset
+		|| size - offset < sizeof(*icmppacket)
 		|| ft_checksum(icmppacket, size - offset) != 0)
 	{
 		if (!server->flood)
-			dprintf(2, "ft_ping: recv: invalid icmp packet\n");
+		{
+			if (server->verbose)
+			{
+				dprintf(2, "ft_ping: recv: invalid icmp packet: %s\n",
+						size - offset < sizeof(*icmppacket) ? "bad packet size": "invalid checksum");
+				ft_dump_packet(ippacket, size);
+			}
+			else
+				dprintf(2, "ft_ping: recv: invalid icmp packet\n");
+		}
 		ft_add_received_error();
 		return ;
 	}
 	if (icmppacket->type > 16 || g_phandler[icmppacket->type] == NULL)
 	{
 		if (!server->flood)
-			dprintf(2, "ft_ping: icmp packet: invalid packet type\n");
+		{
+			if (server->verbose)
+			{
+				dprintf(2, "ft_ping: icmp packet: invalid packet type (%hhu)\n", icmppacket->type);
+				ft_dump_packet(ippacket, size);
+			}
+			else
+				dprintf(2, "ft_ping: icmp packet: invalid packet type\n");
+		}
 		ft_add_received_error();
 		return ;
 	}

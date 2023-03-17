@@ -187,5 +187,6 @@ void ft_handle_redirect(
 	const t_ip_packet *ip_packet,
 	const t_icmp_packet *packet,
 	size_t size);
+void ft_dump_packet(const t_ip_packet *ippacket, size_t size);
 
 #endif /* FT_PACKET_H */

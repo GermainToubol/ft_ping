@@ -18,6 +18,7 @@
 
 #include <arpa/inet.h>
 #include <stddef.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <sys/socket.h>
 #include <sys/time.h>
@@ -117,8 +118,12 @@ void ft_handel_unreachable(
 	if (packet->code > 5)
 		return ;
 	if (!server->flood)
+	{
 		dprintf(1, "%ld bytes from %s: %s\n",
 				size, inet_ntop(AF_INET, &ip_packet->source, buffer, 16), reason[packet->code]);
+		if (server->verbose)
+			ft_dump_packet(ip_packet, size);
+	}
 	ft_add_received_error();
 }
 
@@ -149,8 +154,12 @@ void ft_handle_time(
 	if (packet->code > 1)
 		return ;
 	if (!server->flood)
+	{
 		dprintf(1, "%ld bytes from %s: %s\n",
 				size, inet_ntop(AF_INET, &ip_packet->source, buffer, 16), reason[packet->code]);
+		if (server->verbose)
+			ft_dump_packet(ip_packet, size);
+	}
 	ft_add_received_error();
 }
 
@@ -175,8 +184,12 @@ void ft_handle_problem(
 	char		buffer[16];
 
 	if (!server->flood)
+	{
 		dprintf(1, "%ld bytes from %s: Problem at byte %hhu\n",
 				size, inet_ntop(AF_INET, &ip_packet->source, buffer, 16), packet->problem.ptr);
+		if (server->verbose)
+			ft_dump_packet(ip_packet, size);
+	}
 	ft_add_received_error();
 }
 
@@ -203,8 +216,12 @@ void ft_handle_quench(
 	if (packet->code != 0)
 		return ;
 	if (!server->flood)
-		dprintf(1, "%ld bytes from %s: Quenched packet\n",
+	{
+		dprintf(1, "%ld bytes from %s: Quenched pac\n",
 				size, inet_ntop(AF_INET, &ip_packet->source, buffer, 16));
+		if (server->verbose)
+			ft_dump_packet(ip_packet, size);
+	}
 	ft_add_received_error();
 }
 
@@ -238,8 +255,12 @@ void ft_handle_redirect(
 	if (packet->code > 3)
 		return ;
 	if (!server->flood)
+	{
 		dprintf(1, "%ld bytes from %s: %s (%s)\n",
 				size, inet_ntop(AF_INET, &ip_packet->source, buffer, 16), reason[packet->code],
 				inet_ntop(AF_INET, &packet->gateway.address, buffer2, 16));
+		if (server->verbose)
+			ft_dump_packet(ip_packet, size);
+	}
 	ft_add_received_error();
 }
