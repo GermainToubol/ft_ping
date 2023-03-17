@@ -18,6 +18,7 @@
 static int ft_apply_recvtimeo(const t_server *server);
 static int ft_apply_mark(const t_server *server);
 static int ft_apply_mtu(const t_server *server);
+static int ft_apply_ttl(const t_server *server);
 
 /**
  * @fn int32_t ft_options_socket(const t_server *server)
@@ -36,6 +37,8 @@ int32_t	ft_options_socket(const t_server *server)
 	if (ft_apply_mark(server))
 		return (-1);
 	if (ft_apply_mtu(server))
+		return (-1);
+	if (ft_apply_ttl(server))
 		return (-1);
 	return (0);
 }
@@ -80,8 +83,20 @@ static int ft_apply_mtu(const t_server *server)
 	if (setsockopt(server->sockfd, SOL_IP, IP_MTU_DISCOVER, opt + 1,
 				   sizeof(opt[0])))
 	{
-		dprintf(2, "ft_ping: Warning: Failed to set mark: %d: %s\n",
-				server->mark, strerror(errno));
+		dprintf(2, "ft_ping: socket: failed to apply pmtud: %s\n",
+				strerror(errno));
+		return (-1);
+	}
+	return (0);
+}
+
+static int ft_apply_ttl(const t_server *server)
+{
+	if (setsockopt(server->sockfd, IPPROTO_IP, IP_TTL, &server->ttl,
+				   sizeof(server->ttl)))
+	{
+		dprintf(2, "ft_ping: socket: Failed to set ttl: %hhu: %s\n",
+				server->ttl, strerror(errno));
 		return (-1);
 	}
 	return (0);

@@ -32,6 +32,7 @@ int	main(int argc, const char **argv)
 	server.mtud = NO_MTUD;
 	server.deadline = 0;
 	server.timeout = 0;
+	server.ttl = 64;
 	errcode = ft_init(argc, argv, &server);
 	if (errcode == 0)
 		errcode = ft_loop(&server);

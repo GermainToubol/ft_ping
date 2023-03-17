@@ -66,6 +66,7 @@ typedef struct {
 	uint8_t			pattern[16];				/*!< Padding pattern */
 	uint32_t		pattern_length;				/*!< Pattern length */
 	int				verbose;					/*!< Verbosity option */
+	uint8_t			ttl;						/*!< Echo request ttl */
 } t_server;
 
 int32_t ft_init(int argc, const char **argv, t_server *server);
