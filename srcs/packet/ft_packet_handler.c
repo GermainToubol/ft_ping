@@ -60,10 +60,13 @@ void ft_handel_response(
 	{
 		if (!server->resolve)
 			dprintf(1, "%ld bytes from %s: icmp_seq=%d ttl=%d time=%.3f ms\n",
-					size, inet_ntop(AF_INET, &ip_packet->source, buffer, 16), ft_swap_16bits(packet->echo.seq), ip_packet->ttl, delay);
+					size, inet_ntop(AF_INET, &ip_packet->source, buffer, 16),
+					ft_swap_16bits(packet->echo.seq), ip_packet->ttl, delay);
 		else
 			dprintf(1, "%ld bytes from %s (%s): icmp_seq=%d ttl=%d time=%.3f ms\n",
-					size, ft_resolve(server, ip_packet->source), inet_ntop(AF_INET, &ip_packet->source, buffer, 16), ft_swap_16bits(packet->echo.seq), ip_packet->ttl, delay);
+					size, ft_resolve(server, ip_packet->source),
+					inet_ntop(AF_INET, &ip_packet->source, buffer, 16),
+					ft_swap_16bits(packet->echo.seq), ip_packet->ttl, delay);
 	}
 	else
 		dprintf(1, "/\r");
@@ -125,8 +128,18 @@ void ft_handel_unreachable(
 		return ;
 	if (!server->flood)
 	{
-		dprintf(1, "%ld bytes from %s: %s\n",
-				size, inet_ntop(AF_INET, &ip_packet->source, buffer, 16), reason[packet->code]);
+		if (!server->resolve)
+			dprintf(1, "%ld bytes from %s: %s\n",
+					size,
+					inet_ntop(AF_INET, &ip_packet->source, buffer, 16),
+					reason[packet->code]);
+		else
+		{
+			dprintf(1, "%ld bytes from %s (%s): %s\n",
+					size, ft_resolve(server, ip_packet->source),
+					inet_ntop(AF_INET, &ip_packet->source, buffer, 16),
+					reason[packet->code]);
+		}
 		if (server->verbose)
 			ft_dump_packet(ip_packet, size);
 	}
@@ -161,8 +174,13 @@ void ft_handle_time(
 		return ;
 	if (!server->flood)
 	{
-		dprintf(1, "%ld bytes from %s: %s\n",
-				size, inet_ntop(AF_INET, &ip_packet->source, buffer, 16), reason[packet->code]);
+		if (!server->resolve)
+			dprintf(1, "%ld bytes from %s: %s\n",
+					size, inet_ntop(AF_INET, &ip_packet->source, buffer, 16), reason[packet->code]);
+		else
+			dprintf(1, "%ld bytes from %s (%s): %s\n",
+					size, ft_resolve(server, ip_packet->source),
+					inet_ntop(AF_INET, &ip_packet->source, buffer, 16), reason[packet->code]);
 		if (server->verbose)
 			ft_dump_packet(ip_packet, size);
 	}
@@ -191,8 +209,14 @@ void ft_handle_problem(
 
 	if (!server->flood)
 	{
-		dprintf(1, "%ld bytes from %s: Problem at byte %hhu\n",
-				size, inet_ntop(AF_INET, &ip_packet->source, buffer, 16), packet->problem.ptr);
+		if (!server->resolve)
+			dprintf(1, "%ld bytes from %s: Problem at byte %hhu\n",
+					size, inet_ntop(AF_INET, &ip_packet->source, buffer, 16), packet->problem.ptr);
+		else
+			dprintf(1, "%ld bytes from %s (%s): Problem at byte %hhu\n",
+					size, ft_resolve(server, ip_packet->source),
+					inet_ntop(AF_INET, &ip_packet->source, buffer, 16), packet->problem.ptr);
+
 		if (server->verbose)
 			ft_dump_packet(ip_packet, size);
 	}
@@ -223,8 +247,14 @@ void ft_handle_quench(
 		return ;
 	if (!server->flood)
 	{
-		dprintf(1, "%ld bytes from %s: Quenched pac\n",
-				size, inet_ntop(AF_INET, &ip_packet->source, buffer, 16));
+		if (!server->resolve)
+			dprintf(1, "%ld bytes from %s: Quenched pac\n",
+					size, inet_ntop(AF_INET, &ip_packet->source, buffer, 16));
+		else
+			dprintf(1, "%ld bytes from %s (%s): Quenched pac\n",
+					size, ft_resolve(server, ip_packet->source),
+					inet_ntop(AF_INET, &ip_packet->source, buffer, 16));
+
 		if (server->verbose)
 			ft_dump_packet(ip_packet, size);
 	}
@@ -262,9 +292,15 @@ void ft_handle_redirect(
 		return ;
 	if (!server->flood)
 	{
-		dprintf(1, "%ld bytes from %s: %s (%s)\n",
-				size, inet_ntop(AF_INET, &ip_packet->source, buffer, 16), reason[packet->code],
-				inet_ntop(AF_INET, &packet->gateway.address, buffer2, 16));
+		if (!server->resolve)
+			dprintf(1, "%ld bytes from %s: %s (%s)\n",
+					size, inet_ntop(AF_INET, &ip_packet->source, buffer, 16), reason[packet->code],
+					inet_ntop(AF_INET, &packet->gateway.address, buffer2, 16));
+		else
+			dprintf(1, "%ld bytes from %s (%s): %s (%s)\n",
+					size, ft_resolve(server, ip_packet->source),
+					inet_ntop(AF_INET, &ip_packet->source, buffer, 16), reason[packet->code],
+					inet_ntop(AF_INET, &packet->gateway.address, buffer2, 16));
 		if (server->verbose)
 			ft_dump_packet(ip_packet, size);
 	}

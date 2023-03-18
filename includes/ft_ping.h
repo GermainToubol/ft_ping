@@ -51,6 +51,7 @@ typedef struct {
 	uint8_t		ncache;			 				/*!< Number of current cached addresses */
 	uint32_t	ip[CACHE_SIZE];					/*!< Resolved IPs */
 	char		name[CACHE_SIZE][NI_MAXHOST];	/*!< Resolved names */
+	char		tmp[16];						/*!< Unresolved */
 }	t_cache;
 
 /**

@@ -16,14 +16,17 @@
  *
  */
 
+#include <arpa/inet.h>
 #include <netdb.h>
 #include <netinet/in.h>
 #include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <sys/socket.h>
 
 #include "ft_packet.h"
 #include "ft_ping.h"
+#include "libft.h"
 
 /**
  * @fn const char *ft_resolve(const t_server *server, uint32_t ip)
@@ -49,7 +52,7 @@ const char	*ft_resolve(const t_server *server, uint32_t ip)
 	{
 		if (server->verbose)
 			dprintf(2, "ft_ping: warning: cache full\n");
-		return (NULL);
+		return (inet_ntop(AF_INET, &ip, server->cache->tmp, 16));
 	}
 	struct sockaddr_in addr = {
 		.sin_family = AF_INET,
@@ -63,7 +66,10 @@ const char	*ft_resolve(const t_server *server, uint32_t ip)
 				server->cache->name[i], NI_MAXHOST,
 				NULL, 0, NI_NAMEREQD);
 	if (ret != 0)
-		return (NULL);
+	{
+		inet_ntop(AF_INET, &ip, server->cache->tmp, 16);
+		ft_strlcpy(server->cache->name[i], server->cache->tmp, NI_MAXHOST);
+	}
 	server->cache->ncache++;
 	server->cache->ip[i] = ip;
 	return (server->cache->name[i]);
