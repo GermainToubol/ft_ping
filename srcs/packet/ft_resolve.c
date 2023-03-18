@@ -64,7 +64,13 @@ const char	*ft_resolve(const t_server *server, uint32_t ip)
 	};
 	int ret = getnameinfo((const struct sockaddr *)&addr, sizeof(addr),
 				server->cache->name[i], NI_MAXHOST,
-				NULL, 0, NI_NAMEREQD);
+				NULL, 0,
+#ifndef AI_IDN
+						  NI_NAMEREQD
+#else
+						  NI_NAMEREQD | AI_IDN
+#endif
+		);
 	if (ret != 0)
 	{
 		inet_ntop(AF_INET, &ip, server->cache->tmp, 16);

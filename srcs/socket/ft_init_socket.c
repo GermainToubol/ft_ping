@@ -42,7 +42,11 @@
 int32_t ft_init_socket(t_server *server)
 {
 	const struct addrinfo	hint = {
+#ifndef AI_IDN
 		.ai_flags = 0,
+#else
+		.ai_flags = AI_IDN,
+#endif
 		.ai_family = AF_INET,
 		.ai_socktype = SOCK_RAW,
 		.ai_protocol = IPPROTO_ICMP,
