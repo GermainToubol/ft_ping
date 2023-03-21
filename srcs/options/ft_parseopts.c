@@ -157,10 +157,15 @@ static int ft_parse_short(int i, const char **argv, t_server *server)
 				&& ft_strncmp(g_opts[k].shortname, argv[i] + j, 1) == 0)
 			{
 				has_opt = (g_opts[k].parameter != NULL);
-				if (argv[i][j + 1] == '\0')
+				if (argv[i][j + 1] == '\0' && (!has_opt || argv[i + 1] != NULL))
 					ret = g_opts[k].fnc(argv[i + 1], server);
-				else
+				else if (argv[i][j + 1] != '\0')
 					ret = g_opts[k].fnc(argv[i] + j + 1, server);
+				else
+				{
+					ret = -1;
+					dprintf(2, "ft_ping: missing argument: %s\n", g_opts[k].shortname);
+				}
 				goto nextloop;
 			}
 		}

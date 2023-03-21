@@ -31,6 +31,6 @@ int	ft_optflood(const char *arg, t_server *server)
 	server->flood = 1;
 	if (getuid() == 0)
 		return (0);
-	dprintf(2, "ft_ping: cannot flood; minimal interval allowed for user is 200ms");
+	dprintf(2, "ft_ping: cannot flood; minimal interval allowed for user is 200ms\n");
 	return (-1);
 }
